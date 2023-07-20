@@ -11,6 +11,12 @@ The docker compose configuration for the server setup I use in my desktop/server
 
 ## Setup
 
+### General
+
+- Create a new folder `swag_config`
+
+### Services
+
 - Homepage
   - Follow [gist](https://gist.github.com/styblope/dc55e0ad2a9848f2cc3307d4819d819f)
 - SWAG (after initial run)
