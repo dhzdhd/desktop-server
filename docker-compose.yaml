@@ -68,5 +68,23 @@ services:
     depends_on:
       - swag
 
+  calibre-web:
+    image: linuxserver/calibre-web:latest
+    container_name: calibre-web
+    environment:
+      - PUID=1000
+      - PGID=1000
+      # - TZ=IN
+      - DOCKER_MODS=linuxserver/mods:universal-calibre
+      - OAUTHLIB_RELAX_TOKEN_SCOPE=1
+    volumes:
+      - ./calibre_config/config:/config
+      - ./calibre_config/books:/books
+    ports:
+      - 8083:8083
+    restart: unless-stopped
+    depends_on:
+      - swag
+
 volumes:
   portainer_data:

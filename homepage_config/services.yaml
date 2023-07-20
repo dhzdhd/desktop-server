@@ -3,9 +3,11 @@
 # https://gethomepage.dev/en/configs/services
 
 - Servers:
-    - My First Service:
-        href: http://localhost/
-        description: Homepage is awesome
+    - Calibre Web:
+        icon: calibre.png
+        href: https://calibre-web.dhzdhd.duckdns.org
+        container: calibre
+        description: Ebook reader and converter
 
 - Monitoring:
     - Portainer:

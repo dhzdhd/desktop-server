@@ -6,3 +6,5 @@ assets/manifest.json
 swag_config/*
 
 homepage_config/logs
+
+calibre_config/config
