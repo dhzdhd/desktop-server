@@ -7,6 +7,12 @@
     memory: true
     disk: /
 
+- datetime:
+    text_size: xl
+    format:
+      timeStyle: short
+      dateStyle: short
+
 - search:
-    provider: duckduckgo
+    provider: google
     target: _blank

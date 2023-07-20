@@ -4,15 +4,21 @@
 
 - Developer:
     - Github:
-        - abbr: GH
-          href: https://github.com/
+        - icon: si-github
+          href: https://github.com/dhzdhd
+    - Gitlab:
+        - icon: si-gitlab
+          href: https://gitlab.com/dhzdhd
+    - Docker:
+        - icon: si-docker
+          href: https://hub.docker.com/repositories/dhzdhd
 
 - Social:
     - Reddit:
-        - abbr: RE
+        - icon: si-reddit
           href: https://reddit.com/
 
 - Entertainment:
     - YouTube:
-        - abbr: YT
+        - icon: si-youtube
           href: https://youtube.com/

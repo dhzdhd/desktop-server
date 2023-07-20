@@ -2,6 +2,24 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/en/configs/settings
 
+title: Dashboard
+
 providers:
   openweathermap: openweathermapapikey
   weatherapi: weatherapiapikey
+
+layout:
+  Servers:
+    icon: mdi-cloud
+
+  Monitoring:
+    icon: mdi-monitor-eye
+
+iconStyle: theme
+headerStyle: clean
+quicklaunch:
+    searchDescriptions: true
+    hideInternetSearch: false
+    hideVisitURL: false
+
+showStats: true

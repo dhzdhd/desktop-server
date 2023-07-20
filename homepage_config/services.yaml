@@ -10,11 +10,11 @@
 - Monitoring:
     - Portainer:
         icon: portainer.png
-        href: http://localhost:9000/
+        href: https://portainer.dhzdhd.duckdns.org
         container: portainer
         description: Docker monitoring software
         widget:
             type: portainer
-            url: http://127.0.0.1:9000
+            url: https://portainer.dhzdhd.duckdns.org
             env: 1
             key: ptr_8e3C/XrggHTBxFXOcM5H2bEcUqxH0gd7sjzyW1oxwrE=

@@ -1,6 +1,6 @@
 # desktop-server
 
-The docker compose configuration for the server setup I use in the vmConsole app hosted on my phone.
+The docker compose configuration for the server setup I use in my desktop/server/laptop/Raspberry Pi
 
 ## Applications used
 
@@ -12,7 +12,7 @@ The docker compose configuration for the server setup I use in the vmConsole app
 - Homepage
   - Follow [gist](https://gist.github.com/styblope/dc55e0ad2a9848f2cc3307d4819d819f)
 - SWAG (after initial run)
-  - Before inital run
+  - Before initial run
     - Add duckdns key to `swag_config\dns-conf\duckdns.ini`
   - After inital run (activate implies remove `.sample`)
     - Move `www.subdomain.conf` to `swag_config\nginx\proxy-confs\`
