@@ -1,33 +1,33 @@
 version: "3.3"
 services:
-  # swag:
-  #   image: lscr.io/linuxserver/swag:latest
-  #   container_name: swag
-  #   ports:
-  #     - 443:443
-  #   cap_add:
-  #     - NET_ADMIN
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=IN
-  #     - DNSPLUGIN=duckdns
-  #     - URL=dhzdhd.duckdns.org
-  #     # - SUBDOMAINS=wildcard
-  #     - ONLY_SUBDOMAINS=true
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./swag_config:/config
-
-  homer:
-    image: b4bz/homer:latest
+  swag:
+    image: lscr.io/linuxserver/swag:latest
+    container_name: swag
     ports:
-      - 8080:8080
-    container_name: homer
-    user: 1000:1000
-    restart: always
+      - 443:443
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=IN
+      - VALIDATION=dns
+      - DNSPLUGIN=duckdns
+      - URL=dhzdhd.duckdns.org
+      - SUBDOMAINS=wildcard
+      - ONLY_SUBDOMAINS=true
+    restart: unless-stopped
     volumes:
-      - ./assets/:/www/assets
+      - ./swag_config:/config
+
+  homepage:
+    image: ghcr.io/benphelps/homepage:latest
+    container_name: homepage
+    ports:
+      - 3000:3000
+    volumes:
+      - ./homepage_config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
   portainer:
     image: portainer/portainer-ce:alpine

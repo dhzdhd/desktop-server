@@ -1,0 +1,11 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/docker/
+# https://gist.github.com/styblope/dc55e0ad2a9848f2cc3307d4819d819f
+
+my-docker:
+  host: 127.0.0.1
+  port: 2375
+
+# my-docker:
+#   socket: /var/run/docker.sock

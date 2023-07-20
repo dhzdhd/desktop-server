@@ -1,0 +1,20 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/services
+
+- Servers:
+    - My First Service:
+        href: http://localhost/
+        description: Homepage is awesome
+
+- Monitoring:
+    - Portainer:
+        icon: portainer.png
+        href: http://localhost:9000/
+        container: portainer
+        description: Docker monitoring software
+        widget:
+            type: portainer
+            url: http://127.0.0.1:9000
+            env: 1
+            key: ptr_8e3C/XrggHTBxFXOcM5H2bEcUqxH0gd7sjzyW1oxwrE=
