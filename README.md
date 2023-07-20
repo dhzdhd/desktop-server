@@ -15,4 +15,5 @@ The docker compose configuration for the server setup I use in the vmConsole app
   - Before inital run
     - Add duckdns key to `swag_config\dns-conf\duckdns.ini`
   - After inital run (activate implies remove `.sample`)
+    - Move `www.subdomain.conf` to `swag_config\nginx\proxy-confs\`
     - Activate `swag_config\nginx\proxy-confs\portainer.subdomain.conf`
