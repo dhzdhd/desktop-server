@@ -6,6 +6,8 @@ The docker compose configuration for the server setup I use in my desktop/server
 
 - Homepage - a dashboard web app
 - Portainer - a Docker monitoring service
+- PgAdmin - a PostgreSQL dashboard app
+- PostgreSQL - a SQL database
 
 ## Setup
 
@@ -16,4 +18,6 @@ The docker compose configuration for the server setup I use in my desktop/server
     - Add duckdns key to `swag_config\dns-conf\duckdns.ini`
   - After inital run (activate implies remove `.sample`)
     - Move `www.subdomain.conf` to `swag_config\nginx\proxy-confs\`
-    - Activate `swag_config\nginx\proxy-confs\portainer.subdomain.conf`
+    - Activate (in `swag_config\nginx\proxy-confs\`)
+      - `portainer.subdomain.conf`
+      - `pgadmin.subdomain.conf`

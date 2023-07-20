@@ -17,4 +17,11 @@
             type: portainer
             url: https://portainer.dhzdhd.duckdns.org
             env: 1
+            #! Remove for prod
             key: ptr_8e3C/XrggHTBxFXOcM5H2bEcUqxH0gd7sjzyW1oxwrE=
+
+    - PgAdmin:
+        icon: pgadmin.png
+        href: https://pgadmin.dhzdhd.duckdns.org
+        container: pgadmin
+        description: PostgreSQL dashboard

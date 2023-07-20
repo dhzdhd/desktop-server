@@ -28,6 +28,8 @@ services:
     volumes:
       - ./homepage_config:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - swag
 
   portainer:
     image: portainer/portainer-ce:alpine
@@ -39,6 +41,32 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "portainer_data:/data"
+    depends_on:
+      - swag
+
+  database:
+    image: postgres:15
+    container_name: database
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=hello
+      - POSTGRES_USER=deep
+    depends_on:
+      - swag
+
+  pgadmin:
+    image: dpage/pgadmin4:7.4
+    container_name: pgadmin
+    restart: always
+    ports:
+      - 5050:80
+    environment:
+      - PGADMIN_DEFAULT_PASSWORD=root
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+    depends_on:
+      - swag
 
 volumes:
   portainer_data:
