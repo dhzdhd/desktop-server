@@ -18,7 +18,7 @@ services:
       - ONLY_SUBDOMAINS=true
     restart: unless-stopped
     volumes:
-      - ./swag_config:/config
+      - ./data/swag/config:/config
 
   homepage:
     image: ghcr.io/benphelps/homepage:latest
@@ -26,7 +26,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./homepage_config:/app/config
+      - ./data/homepage/config:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
     depends_on:
       - swag
@@ -45,14 +45,17 @@ services:
       - swag
 
   database:
-    image: postgres:15
+    image: postgres:15-alpine
     container_name: database
-    restart: always
+    restart: unless-stopped
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_PASSWORD=hello
-      - POSTGRES_USER=deep
+      POSTGRES_DB: deep
+      POSTGRES_PASSWORD: deep
+      POSTGRES_USER: deep
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     depends_on:
       - swag
 
@@ -68,23 +71,153 @@ services:
     depends_on:
       - swag
 
-  calibre-web:
-    image: linuxserver/calibre-web:latest
-    container_name: calibre-web
+  # calibre-web:
+  #   image: linuxserver/calibre-web:latest
+  #   container_name: calibre-web
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     # - TZ=IN
+  #     - DOCKER_MODS=linuxserver/mods:universal-calibre
+  #     - OAUTHLIB_RELAX_TOKEN_SCOPE=1
+  #   volumes:
+  #     - ./data/calibre/config:/config
+  #     - ./data/calibre/books:/books
+  #   ports:
+  #     - 8083:8083
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - swag
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
+      - "8086:80/tcp"
+    environment:
+      TZ: "Asia/Calcutta"
+      # WEBPASSWORD: 'set a secure password here or it will be random'
+    volumes:
+      - "./data/pihole/etc_dnsmasq:/etc/pihole"
+      - "./data/pihole/etc_dnsmasq.d:/etc/dnsmasq.d"
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    cap_add:
+      - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
+    restart: unless-stopped
+
+  photoprism:
+    image: photoprism/photoprism:latest
+    container_name: photoprism
+    ## Don't enable automatic restarts until PhotoPrism has been properly configured and tested!
+    # restart: unless-stopped
+    stop_grace_period: 10s
+    # depends_on:
+    #   - mariadb
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    ports:
+      - 2342:2342
+    environment:
+      PHOTOPRISM_ADMIN_USER: "admin"
+      PHOTOPRISM_ADMIN_PASSWORD: "deep"
+      PHOTOPRISM_AUTH_MODE: "password" # authentication mode (public, password)
+      PHOTOPRISM_SITE_URL: "https://photoprism.dhzdhd.duckdns.org/"
+      PHOTOPRISM_DISABLE_TLS: "true" # disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available
+      PHOTOPRISM_DEFAULT_TLS: "true" # defaults to a self-signed HTTPS/TLS certificate if no other certificate is available
+      PHOTOPRISM_ORIGINALS_LIMIT: 5000
+      PHOTOPRISM_HTTP_COMPRESSION: "gzip"
+      PHOTOPRISM_LOG_LEVEL: "info"
+      PHOTOPRISM_READONLY: "false" # do not modify originals directory (reduced functionality)
+      PHOTOPRISM_EXPERIMENTAL: "false" # enables experimental features
+      PHOTOPRISM_DISABLE_CHOWN: "false" # disables updating storage permissions via chmod and chown on startup
+      PHOTOPRISM_DISABLE_WEBDAV: "false" # disables built-in WebDAV server
+      PHOTOPRISM_DISABLE_SETTINGS: "false" # disables settings UI and API
+      PHOTOPRISM_DISABLE_TENSORFLOW: "true"
+      PHOTOPRISM_DISABLE_FACES: "true" # (requires TensorFlow)
+      PHOTOPRISM_DISABLE_CLASSIFICATION: "true" # (requires TensorFlow)
+      PHOTOPRISM_DISABLE_VECTORS: "false" # disables vector graphics support
+      PHOTOPRISM_DISABLE_RAW: "false" # disables indexing and conversion of RAW images
+      PHOTOPRISM_RAW_PRESETS: "false" # enables applying user presets when converting RAW images (reduces performance)
+      PHOTOPRISM_JPEG_QUALITY: 100 # (25-100)
+      PHOTOPRISM_DETECT_NSFW: "false"
+      PHOTOPRISM_UPLOAD_NSFW: "true"
+      PHOTOPRISM_DATABASE_DRIVER: "sqlite"
+      # PHOTOPRISM_DATABASE_DRIVER: "mysql" # use MariaDB 10.5+ or MySQL 8+ instead of SQLite for improved performance
+      # PHOTOPRISM_DATABASE_SERVER: "mariadb:3306" # MariaDB or MySQL database server (hostname:port)
+      # PHOTOPRISM_DATABASE_NAME: "photoprism" # MariaDB or MySQL database schema name
+      # PHOTOPRISM_DATABASE_USER: "photoprism" # MariaDB or MySQL database user name
+      # PHOTOPRISM_DATABASE_PASSWORD: "insecure" # MariaDB or MySQL database user password
+      PHOTOPRISM_SITE_CAPTION: "Photos App"
+      PHOTOPRISM_SITE_DESCRIPTION: ""
+      PHOTOPRISM_SITE_AUTHOR: ""
+      ## Video Transcoding (https://docs.photoprism.app/getting-started/advanced/transcoding/):
+      # PHOTOPRISM_FFMPEG_ENCODER: "software"        # H.264/AVC encoder (software, intel, nvidia, apple, raspberry, or vaapi)
+      # PHOTOPRISM_FFMPEG_SIZE: "1920"               # video size limit in pixels (720-7680) (default: 3840)
+      # PHOTOPRISM_FFMPEG_BITRATE: "32"              # video bitrate limit in Mbit/s (default: 50)
+      ## Run/install on first startup (options: update https gpu tensorflow davfs clitools clean):
+      # PHOTOPRISM_INIT: "https gpu tensorflow"
+      ## Run as a non-root user after initialization (supported: 0, 33, 50-99, 500-600, and 900-1200):
+      # PHOTOPRISM_UID: 1000
+      # PHOTOPRISM_GID: 1000
+      # PHOTOPRISM_UMASK: 0000
+    ## Start as non-root user before initialization (supported: 0, 33, 50-99, 500-600, and 900-1200):
+    # user: "1000:1000"
+    ## Share hardware devices with FFmpeg and TensorFlow (optional):
+    # devices:
+    #  - "/dev/dri:/dev/dri"                         # Intel QSV
+    #  - "/dev/nvidia0:/dev/nvidia0"                 # Nvidia CUDA
+    #  - "/dev/nvidiactl:/dev/nvidiactl"
+    #  - "/dev/nvidia-modeset:/dev/nvidia-modeset"
+    #  - "/dev/nvidia-nvswitchctl:/dev/nvidia-nvswitchctl"
+    #  - "/dev/nvidia-uvm:/dev/nvidia-uvm"
+    #  - "/dev/nvidia-uvm-tools:/dev/nvidia-uvm-tools"
+    #  - "/dev/video11:/dev/video11"                 # Video4Linux Video Encode Device (h264_v4l2m2m)
+    working_dir: "/photoprism"
+    volumes:
+      - "photoprism_data:/photoprism/originals"
+      # - "~/Import:/photoprism/import"                  # (Optional) base folder from which files can be imported to originals
+      - "./data/photoprism/storage:/photoprism/storage" # (Writable) storage folder for cache, database, and sidecar files (DO NOT REMOVE)d
+
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: mariadb
     environment:
       - PUID=1000
       - PGID=1000
-      # - TZ=IN
-      - DOCKER_MODS=linuxserver/mods:universal-calibre
-      - OAUTHLIB_RELAX_TOKEN_SCOPE=1
+      - MYSQL_ROOT_PASSWORD=deep
+      - MYSQL_DATABASE=deep
+      - MYSQL_USER=deep
+      - MYSQL_PASSWORD=deep
     volumes:
-      - ./calibre_config/config:/config
-      - ./calibre_config/books:/books
+      - ./data/mariadb/config:/config
     ports:
-      - 8083:8083
+      - 3306:3306
     restart: unless-stopped
-    depends_on:
-      - swag
+
+  chevereto:
+    image: ghcr.io/chevereto/chevereto:latest
+    container_name: chevereto
+    ports:
+      - 8087:80
+    environment:
+      - CHEVERETO_DB_HOST=mariadb
+      - CHEVERETO_DB_USER=deep
+      - CHEVERETO_DB_PASS=deep
+      - CHEVERETO_DB_PORT=3306
+      - CHEVERETO_DB_NAME=deep
+      - CHEVERETO_ASSET_STORAGE_TYPE=local
+      - CHEVERETO_ASSET_STORAGE_URL=/images/_assets/
+      - CHEVERETO_ASSET_STORAGE_BUCKET=/var/www/html/images/_assets/
+    volumes:
+      - chevereto_data:/var/www/html/images/
 
 volumes:
+  postgres-data:
   portainer_data:
+  photoprism_data:
+  chevereto_data:

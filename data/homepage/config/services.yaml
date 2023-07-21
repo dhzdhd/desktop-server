@@ -9,6 +9,17 @@
         container: calibre
         description: Ebook reader and converter
 
+    - PhotoPrism:
+        icon: photoprism.png
+        href: https://photoprism.dhzdhd.duckdns.org
+        container: photoprism
+        description: Image server
+        widget:
+            type: photoprism
+            url: https://photoprism.dhzdhd.duckdns.org
+            username: admin
+            password: deep
+
 - Monitoring:
     - Portainer:
         icon: portainer.png
@@ -27,3 +38,13 @@
         href: https://pgadmin.dhzdhd.duckdns.org
         container: pgadmin
         description: PostgreSQL dashboard
+
+    - Pi-hole:
+        icon: pi-hole.png
+        href: https://pihole.dhzdhd.duckdns.org
+        container: pihole
+        description: Network wide adblocker
+        widget:
+            type: pihole
+            url: https://pihole.dhzdhd.duckdns.org
+            # key: yourpiholeapikey

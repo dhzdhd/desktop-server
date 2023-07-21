@@ -1,10 +1,12 @@
+# Assets
 assets/*.dist
 assets/*.sample-sui
 assets/custom.css.sample
 assets/manifest.json
 
-swag_config/*
+# Data
+data/*
 
-homepage_config/logs
-
-calibre_config/config
+## Homepage
+!data/homepage/
+data/homepage/config/logs
