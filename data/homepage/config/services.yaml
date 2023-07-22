@@ -9,6 +9,18 @@
         container: calibre
         description: Ebook reader and converter
 
+    - Chevereto:
+        icon: chevereto.png
+        href: https://chevereto.dhzdhd.duckdns.org
+        container: chevereto
+        description: Imgbb like image server
+
+    - VSCode:
+        icon: vscode.png
+        href: https://vscode.dhzdhd.duckdns.org
+        container: vscode
+        description: VSCode web server
+
     - PhotoPrism:
         icon: photoprism.png
         href: https://photoprism.dhzdhd.duckdns.org
@@ -21,6 +33,12 @@
             password: deep
 
 - Monitoring:
+    - PgAdmin:
+        icon: pgadmin.png
+        href: https://pgadmin.dhzdhd.duckdns.org
+        container: pgadmin
+        description: PostgreSQL dashboard
+
     - Portainer:
         icon: portainer.png
         href: https://portainer.dhzdhd.duckdns.org
@@ -31,20 +49,34 @@
             url: https://portainer.dhzdhd.duckdns.org
             env: 1
             #! Remove for prod
-            key: ptr_8e3C/XrggHTBxFXOcM5H2bEcUqxH0gd7sjzyW1oxwrE=
+            key: ptr_L5NAU3p4LQq6sH6bpuKb7lV8ZNoYsFCJRvRl01K1x9c=
 
-    - PgAdmin:
-        icon: pgadmin.png
-        href: https://pgadmin.dhzdhd.duckdns.org
-        container: pgadmin
-        description: PostgreSQL dashboard
-
-    - Pi-hole:
-        icon: pi-hole.png
-        href: https://pihole.dhzdhd.duckdns.org
-        container: pihole
-        description: Network wide adblocker
-        widget:
-            type: pihole
-            url: https://pihole.dhzdhd.duckdns.org
+    # - Pi-hole:
+    #     icon: pi-hole.png
+    #     href: https://pihole.dhzdhd.duckdns.org
+    #     container: pihole
+    #     description: Network wide adblocker
+    #     widget:
+    #         type: pihole
+    #         url: https://pihole.dhzdhd.duckdns.org
             # key: yourpiholeapikey
+
+    - Prometheus:
+        icon: prometheus.png
+        href: https://prometheus.dhzdhd.duckdns.org
+        container: prometheus
+        description: Monitoring system with time series database and visualisation
+        widget:
+            type: prometheus
+            url: https://prometheus.dhzdhd.duckdns.org
+
+    - Grafana:
+        icon: grafana.png
+        href: https://grafana.dhzdhd.duckdns.org
+        container: grafana
+        description: Monitoring system for databases
+        widget:
+            type: grafana
+            url: https://grafana.dhzdhd.duckdns.org
+            username: admin
+            password: admin
