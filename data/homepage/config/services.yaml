@@ -51,14 +51,14 @@
             #! Remove for prod
             key: ptr_L5NAU3p4LQq6sH6bpuKb7lV8ZNoYsFCJRvRl01K1x9c=
 
-    # - Pi-hole:
-    #     icon: pi-hole.png
-    #     href: https://pihole.dhzdhd.duckdns.org
-    #     container: pihole
-    #     description: Network wide adblocker
-    #     widget:
-    #         type: pihole
-    #         url: https://pihole.dhzdhd.duckdns.org
+    - Pi-hole:
+        icon: pi-hole.png
+        href: https://pihole.dhzdhd.duckdns.org
+        container: pihole
+        description: Network wide adblocker
+        widget:
+            type: pihole
+            url: https://pihole.dhzdhd.duckdns.org
             # key: yourpiholeapikey
 
     - Prometheus:
