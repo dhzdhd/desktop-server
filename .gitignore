@@ -10,3 +10,6 @@ data/*
 ## Homepage
 !data/homepage/
 data/homepage/config/logs
+
+!data/prometheus/
+!data/prometheus/config/prometheus.yml
