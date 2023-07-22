@@ -216,6 +216,22 @@ services:
     volumes:
       - chevereto_data:/var/www/html/images/
 
+  openvscode-server:
+    image: lscr.io/linuxserver/openvscode-server:latest
+    container_name: vscode
+    environment:
+      - PUID=1000
+      - PGID=1000
+      # - CONNECTION_TOKEN= #optional
+      # - CONNECTION_SECRET= #optional
+      - SUDO_PASSWORD=deep #optional
+      # - SUDO_PASSWORD_HASH= #optional
+    volumes:
+      - ./data/vscode/config:/config
+    ports:
+      - 3002:3000
+    restart: unless-stopped
+
 volumes:
   postgres-data:
   portainer_data:

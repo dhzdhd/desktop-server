@@ -13,7 +13,7 @@ The docker compose configuration for the server setup I use in my desktop/server
 
 ### General
 
-- Create a new folder `swag_config`
+- Run `setup.ps1`
 
 ### Services
 
@@ -27,3 +27,5 @@ The docker compose configuration for the server setup I use in my desktop/server
     - Activate (in `swag_config\nginx\proxy-confs\`)
       - `portainer.subdomain.conf`
       - `pgadmin.subdomain.conf`
+
+- Run `docker compose up -d` to start all servers
