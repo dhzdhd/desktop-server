@@ -1,4 +1,4 @@
-$folders = @('calibre/books', 'calibre/config', 'mariadb/config', 'photoprism/storage', 'pihole/etc_dnsmasq', 'pihole/etc_dnsmasq.d', 'swag/config', 'vscode/config', 'vscode/config/code', 'prometheus/config', 'grafana/storage')
+$folders = @('calibre/books', 'calibre/config', 'mariadb/config', 'photoprism/storage', 'pihole/etc_dnsmasq', 'pihole/etc_dnsmasq.d', 'swag/config', 'vscode/config', 'vscode/config/code', 'prometheus/config', 'grafana/storage', 'jackett/config', 'jackett/downloads', 'lidarr/config', 'lidarr/music', 'lidarr/downloads', 'qbittorrent/config', 'qbittorrent/downloads')
 
 foreach ($folder in $folders) {
     New-Item -ItemType Directory ./data/$folder

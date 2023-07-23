@@ -6,7 +6,7 @@
     - Calibre Web:
         icon: calibre.png
         href: https://calibre-web.dhzdhd.duckdns.org
-        container: calibre
+        container: calibre-web
         description: Ebook reader and converter
 
     - Chevereto:
@@ -20,6 +20,36 @@
         href: https://vscode.dhzdhd.duckdns.org
         container: vscode
         description: VSCode web server
+
+    - Jackett:
+        icon: jackett.png
+        href: https://jackett.dhzdhd.duckdns.org
+        container: jackett
+        description: Helps servearr apps
+        widget:
+            type: jackett
+            url: https://jackett.dhzdhd.duckdns.org
+
+    - Lidarr:
+        icon: lidarr.png
+        href: https://lidarr.dhzdhd.duckdns.org
+        container: lidarr
+        description: Music downloader
+        widget:
+            type: lidarr
+            url: https://lidarr.dhzdhd.duckdns.org
+            key: e1647a9267364e9880153de2bc4c3114
+
+    - qBittorrent:
+        icon: qbittorrent.png
+        href: https://qbittorrent.dhzdhd.duckdns.org
+        container: qbittorrent
+        description: Torrent downloading service
+        widget:
+            type: qbittorrent
+            url: https://qbittorrent.dhzdhd.duckdns.org
+            username: admin
+            password: adminadmin
 
     - PhotoPrism:
         icon: photoprism.png
