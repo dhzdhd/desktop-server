@@ -9,58 +9,11 @@
         container: calibre-web
         description: Ebook reader and converter
 
-    - Chevereto:
-        icon: chevereto.png
-        href: https://chevereto.dhzdhd.duckdns.org
-        container: chevereto
-        description: Imgbb like image server
-
-    - VSCode:
-        icon: vscode.png
-        href: https://vscode.dhzdhd.duckdns.org
-        container: vscode
-        description: VSCode web server
-
-    - Jackett:
-        icon: jackett.png
-        href: https://jackett.dhzdhd.duckdns.org
-        container: jackett
-        description: Helps servearr apps
-        widget:
-            type: jackett
-            url: https://jackett.dhzdhd.duckdns.org
-
-    - Lidarr:
-        icon: lidarr.png
-        href: https://lidarr.dhzdhd.duckdns.org
-        container: lidarr
-        description: Music downloader
-        widget:
-            type: lidarr
-            url: https://lidarr.dhzdhd.duckdns.org
-            key: e1647a9267364e9880153de2bc4c3114
-
-    - qBittorrent:
-        icon: qbittorrent.png
-        href: https://qbittorrent.dhzdhd.duckdns.org
-        container: qbittorrent
-        description: Torrent downloading service
-        widget:
-            type: qbittorrent
-            url: https://qbittorrent.dhzdhd.duckdns.org
-            username: admin
-            password: adminadmin
-
-    - PhotoPrism:
-        icon: photoprism.png
-        href: https://photoprism.dhzdhd.duckdns.org
-        container: photoprism
-        description: Image server
-        widget:
-            type: photoprism
-            url: https://photoprism.dhzdhd.duckdns.org
-            username: admin
-            password: deep
+    - VaultWarden:
+        icon: bitwarden.png
+        href: https://vaultwarden.dhzdhd.duckdns.org
+        container: vaultwarden
+        description: Custom Bitwarden server
 
 - Monitoring:
     - PgAdmin:
@@ -80,16 +33,6 @@
             env: 1
             #! Remove for prod
             key: ptr_L5NAU3p4LQq6sH6bpuKb7lV8ZNoYsFCJRvRl01K1x9c=
-
-    - Pi-hole:
-        icon: pi-hole.png
-        href: https://pihole.dhzdhd.duckdns.org
-        container: pihole
-        description: Network wide adblocker
-        widget:
-            type: pihole
-            url: https://pihole.dhzdhd.duckdns.org
-            # key: yourpiholeapikey
 
     - Prometheus:
         icon: prometheus.png
