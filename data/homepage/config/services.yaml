@@ -16,6 +16,12 @@
         description: Custom Bitwarden server
 
 - Monitoring:
+    - Authelia:
+        icon: authelia.png
+        href: https://authelia.dhzdhd.duckdns.org
+        container: authelia
+        description: Authelia auth server
+
     - PgAdmin:
         icon: pgadmin.png
         href: https://pgadmin.dhzdhd.duckdns.org
@@ -31,8 +37,8 @@
             type: portainer
             url: https://portainer.dhzdhd.duckdns.org
             env: 1
-            #! Remove for prod
-            key: ptr_L5NAU3p4LQq6sH6bpuKb7lV8ZNoYsFCJRvRl01K1x9c=
+            # #! Remove for prod
+            # key: ptr_L5NAU3p4LQq6sH6bpuKb7lV8ZNoYsFCJRvRl01K1x9c=
 
     - Prometheus:
         icon: prometheus.png
