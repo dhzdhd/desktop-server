@@ -45,6 +45,30 @@ services:
     ports:
       - 8083:8083
 
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Kolkata
+    volumes:
+      - ./data/prowlarr/data:/config
+    ports:
+      - 9696:9696
+
+  readarr:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Kolkata
+    volumes:
+      - ./data/readarr/data:/config
+      - ./data/readarr/books:/books
+      - ./data/readarr/downloadclient-downloads:/downloads
+    ports:
+      - 8787:8787
+
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
