@@ -38,7 +38,7 @@
             url: https://portainer.dhzdhd.duckdns.org
             env: 1
             # #! Remove for prod
-            # key: ptr_L5NAU3p4LQq6sH6bpuKb7lV8ZNoYsFCJRvRl01K1x9c=
+            # key: ptr_L5NAU3p4LQq6sH6bpuKb7lV8Z
 
     - Prometheus:
         icon: prometheus.png
