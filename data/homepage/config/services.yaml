@@ -5,9 +5,33 @@
 - Servers:
     - Calibre Web:
         icon: calibre.png
+        href: https://calibre.dhzdhd.duckdns.org
+        container: calibre
+        description: Ebook reader and converter
+
+    - Calibre Web:
+        icon: calibre-web.png
         href: https://calibre-web.dhzdhd.duckdns.org
         container: calibre-web
-        description: Ebook reader and converter
+        description: Calibre Web UI
+
+    - Prowlarr:
+        icon: prowlarr.png
+        href: https://prowlarr.dhzdhd.duckdns.org
+        container: prowlarr
+        description: Prowlarr torrent indexing server
+
+    - Readarr:
+        icon: readarr.png
+        href: https://readarr.dhzdhd.duckdns.org
+        container: readarr
+        description: EBook torrent server
+
+    - Qbittorrent:
+        icon: qbittorrent.png
+        href: https://qbittorrent.dhzdhd.duckdns.org
+        container: qbittorrent
+        description: Torrent download server
 
     - VaultWarden:
         icon: bitwarden.png
