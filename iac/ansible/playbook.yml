@@ -1,0 +1,7 @@
+---
+- name: Set up infra
+  hosts: ungrouped
+  remote_user: ubuntu
+
+  tasks:
+    - name: Update system

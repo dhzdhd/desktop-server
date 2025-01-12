@@ -7,9 +7,13 @@ assets/manifest.json
 # Data
 data/*
 
-## Homepage
+# Homepage
 !data/homepage/
 data/homepage/config/logs
 
+# Prometheus
 !data/prometheus/
 !data/prometheus/config/prometheus.yml
+
+# Ansible
+hosts
