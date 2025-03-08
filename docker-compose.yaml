@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     ports:
       - 443:443
+      - 80:80
     cap_add:
       - NET_ADMIN
     environment:
@@ -32,8 +33,8 @@ services:
       - database:/var/lib/postgresql/data
     restart: unless-stopped
 
-  backup:
-    container_name: backup
+  # backup:
+  #   container_name: backup
 
   vaultwarden:
     container_name: vaultwarden
