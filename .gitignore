@@ -17,3 +17,5 @@ data/homepage/config/logs
 
 # Ansible
 hosts
+
+.env

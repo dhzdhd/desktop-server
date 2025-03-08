@@ -9,6 +9,12 @@ The docker compose configuration for the server setup I use in my desktop/server
 - PgAdmin - a PostgreSQL dashboard app
 - PostgreSQL - a SQL database
 
+## VM Details
+
+- EC2 t4g.micro instance
+- EBS GP3 15GB @ 3000 IOPS
+- 8$ / month
+
 ## Setup
 
 ### General

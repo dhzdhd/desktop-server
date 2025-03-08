@@ -1,11 +1,10 @@
 services:
   swag:
-    image: lscr.io/linuxserver/swag:latest
     container_name: swag
+    image: lscr.io/linuxserver/swag:latest
     restart: unless-stopped
     ports:
       - 443:443
-      - 80:80
     cap_add:
       - NET_ADMIN
     environment:
@@ -13,151 +12,41 @@ services:
       - PGID=1000
       - TZ=Asia/Kolkata
       - VALIDATION=dns
-      - DNSPLUGIN=duckdns
-      - URL=dhzdhd.duckdns.org
       - SUBDOMAINS=wildcard
       - ONLY_SUBDOMAINS=true
+    env_file:
+      - .env
     volumes:
       - ./data/swag/config:/config
 
-  homepage:
-    image: ghcr.io/gethomepage/homepage:latest
-    container_name: homepage
+  database:
+    container_name: database
+    image: postgres:16
     ports:
-      - 3000:3000
-    volumes:
-      - ./data/homepage/config:/app/config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    depends_on:
-      - swag
-
-  calibre:
-    image: lscr.io/linuxserver/calibre:latest
-    container_name: calibre
-    restart: unless-stopped
-    security_opt:
-      - seccomp:unconfined
+      - 5432:5432
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
     env_file:
-      - ./data/calibre/.env
-    environment:
-      - TZ=Etc/UTC
-      - CUSTOM_PORT=8093
+      - .env
     volumes:
-      - ./data/calibre/config:/config
-    ports:
-      - 8093:8093
-      - 8181:8181
-      - 8081:8081
-
-  calibre-web:
-    image: lscr.io/linuxserver/calibre-web:latest
-    container_name: calibre-web
-    restart: unless-stopped
-    environment:
-      - TZ=Asia/Kolkata
-      - DOCKER_MODS=linuxserver/mods:universal-calibre
-      - OAUTHLIB_RELAX_TOKEN_SCOPE=1
-    volumes:
-      - ./data/calibre-web/config:/config
-      - ./data/calibre-web/library:/books
-    ports:
-      - 8083:8083
-
-  prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
-    container_name: prowlarr
-    restart: unless-stopped
-    environment:
-      - TZ=Asia/Kolkata
-    volumes:
-      - ./data/prowlarr/data:/config
-    ports:
-      - 9696:9696
-
-  readarr:
-    image: lscr.io/linuxserver/readarr:develop
-    container_name: readarr
-    restart: unless-stopped
-    environment:
-      - TZ=Asia/Kolkata
-    volumes:
-      - ./data/readarr/data:/config
-      - ./data/readarr/books:/books
-      - ./data/readarr/downloadclient-downloads:/downloads
-    ports:
-      - 8787:8787
-
-  qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
-    container_name: qbittorrent
-    environment:
-      - TZ=Asia/Kolkata
-      - WEBUI_PORT=8086
-      - TORRENTING_PORT=6881
-    volumes:
-      - ./data/qbittorrent/config:/config
-      - ./data/qbittorrent/downloads:/downloads
-    ports:
-      - 8086:8086
-      - 6881:6881
-      - 6881:6881/udp
+      - database:/var/lib/postgresql/data
     restart: unless-stopped
 
-  portainer:
-    image: portainer/portainer-ce:latest
-    container_name: portainer
-    restart: unless-stopped
-    environment:
-      - name=value
-    ports:
-      - 8000:8000
-      - 9443:9443
-      - 9000:9000
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+  backup:
+    container_name: backup
 
   vaultwarden:
-    image: ghcr.io/dani-garcia/vaultwarden:1.30.5
     container_name: vaultwarden
-    restart: unless-stopped
+    image: ghcr.io/dani-garcia/vaultwarden:latest
     ports:
       - 8080:8080
     environment:
       - ROCKET_PORT=8080
-      - DOMAIN=https://vaultwarden.dhzdhd.duckdns.org
+    env_file:
+      - .env
     volumes:
       - ./data/vaultwarden:/data
-
-  authelia:
-    image: authelia/authelia
-    container_name: authelia
     restart: unless-stopped
-    ports:
-      - 9091:9091
-    volumes:
-      - ./data/authelia/config:/config
-
-  postgres:
-    image: postgres:16.2
-    container_name: postgres
-    restart: unless-stopped
-    environment:
-      - PGDATA=/var/lib/postgresql/data/pgdata
-    env_file:
-      - ./data/postgres/.env
-    volumes:
-      - postgres:/var/lib/postgresql/data
-
-  pgadmin:
-    image: dpage/pgadmin4:8.5
-    container_name: pgadmin
-    restart: unless-stopped
-    ports:
-      - 5050:80
-    env_file:
-      - ./data/pgadmin/.env
 
 volumes:
-  portainer_data:
-  postgres:
+  database:
