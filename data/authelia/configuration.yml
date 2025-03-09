@@ -19,6 +19,8 @@ authentication_backend:
 duo_api:
   disable: false
   hostname: "api-9f000416.duosecurity.com"
+  integration_key: '{{ env "AUTHELIA_DUO_API_INTEGRATION_KEY_FILE" }}'
+  secret_key: '{{ env "AUTHELIA_DUO_API_SECRET_KEY_FILE" }}'
   enable_self_enrollment: false
 
 # https://www.authelia.com/configuration/miscellaneous/server/
@@ -48,9 +50,13 @@ regulation:
   ban_time: "5m"
 
 # https://www.authelia.com/configuration/identity-validation/reset-password/
+identity_validation:
+  reset_password:
+    jwt_secret: '{{ env "AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE" }}'
 
 # https://www.authelia.com/configuration/session/introduction/
 session:
+  secret: '{{ env "AUTHELIA_SESSION_SECRET_FILE" }}'
   cookies:
     - domain: "dhzdhd.dev"
       authelia_url: "https://authelia.dhzdhd.dev"
@@ -60,14 +66,19 @@ session:
 
 # https://www.authelia.com/configuration/storage/introduction/
 storage:
+  encryption_key: '{{ env "AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE" }}'
   postgres:
     address: "tcp://database_postgres:5432"
     database: "authelia"
+    username: '{{ env "AUTHELIA_STORAGE_POSTGRES_USERNAME" }}'
+    password: '{{ env "AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE" }}'
 
 # https://www.authelia.com/configuration/notifications/introduction/
 notifier:
   smtp:
     address: "submission://smtp.gmail.com:587"
+    username: '{{ env "AUTHELIA_NOTIFIER_SMTP_USERNAME" }}'
+    password: '{{ env "AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE" }}'
     sender: "authelia@dhzdhd.dev"
 
 # https://www.authelia.com/configuration/telemetry/metrics/
