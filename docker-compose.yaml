@@ -104,6 +104,20 @@ services:
       cache:
         condition: service_started
 
+  # File server with webdav support
+  dufs:
+    container_name: dufs
+    image: sigoden/dufs:latest
+    ports:
+      - 8082:5000
+    environment:
+      - DUFS_ALLOW_ALL=true
+    env_file:
+      - .env
+    volumes:
+      - ./data/dufs:/data
+    restart: unless-stopped
+
 volumes:
   database_postgres:
   database_mysql:
