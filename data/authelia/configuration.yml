@@ -62,13 +62,13 @@ session:
     port: 6379
 
 # https://www.authelia.com/configuration/storage/introduction/
-# storage:
-#   encryption_key: '{{ env "AUTHELIA_STORAGE_ENCRYPTION_KEY" }}'
-#   postgres:
-#     address: "tcp://database_postgres:5432"
-#     database: "authelia"
-#     username: '{{ env "AUTHELIA_STORAGE_POSTGRES_USERNAME" }}'
-#     password: '{{ env "AUTHELIA_STORAGE_POSTGRES_PASSWORD" }}'
+storage:
+  encryption_key: '{{ env "AUTHELIA_STORAGE_ENCRYPTION_KEY" }}'
+  postgres:
+    address: "tcp://database_postgres:5432"
+    database: "authelia"
+    username: '{{ env "AUTHELIA_STORAGE_POSTGRES_USERNAME" }}'
+    password: '{{ env "AUTHELIA_STORAGE_POSTGRES_PASSWORD" }}'
 
 # https://www.authelia.com/configuration/notifications/introduction/
 notifier:
