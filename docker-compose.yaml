@@ -90,10 +90,11 @@ services:
       - DB_CLIENT=pg
       - DB_HOST=database_postgres
       - DB_PORT=5432
-      - DB_NAME=kutt
       - REDIS_ENABLED=true
-      - REDIS_HOST=redis
+      - REDIS_HOST=cache
       - REDIS_PORT=6379
+    env_file:
+      - .env
     volumes:
       - ./data/kutt:/config
     restart: unless-stopped
