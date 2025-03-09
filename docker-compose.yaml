@@ -83,7 +83,7 @@ services:
       - 8081:3000
     environment:
       - DB_CLIENT=pg
-      - DB_HOST=postgres
+      - DB_HOST=database_postgres
       - DB_PORT=5432
       - DB_NAME=kutt
       - REDIS_ENABLED=true
