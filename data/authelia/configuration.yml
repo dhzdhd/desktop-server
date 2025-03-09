@@ -25,11 +25,8 @@ duo_api:
 
 # https://www.authelia.com/configuration/miscellaneous/server/
 server:
-address: "tcp://:9091/authelia"
-asset_path: "/config/assets/"
-buffers:
-  read: 4096
-  write: 4096
+  address: "tcp://:9091/authelia"
+  asset_path: "/config/assets/"
 
 # https://www.authelia.com/configuration/security/access-control/
 access_control:
