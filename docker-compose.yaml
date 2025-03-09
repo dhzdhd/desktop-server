@@ -20,22 +20,50 @@ services:
     volumes:
       - ./data/swag/config:/config
 
-  database:
-    container_name: database
+  database_postgres:
+    container_name: database_postgres
     image: postgres:16
-    ports:
-      - 5432:5432
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
     env_file:
       - .env
     volumes:
-      - database:/var/lib/postgresql/data
+      - database_postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # database_mysql:
+  #   container_name: database_mysql
+  #   image: postgres:16
+  #   environment:
+  #     - PGDATA=/var/lib/postgresql/data/pgdata
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - database_postgres:/var/lib/postgresql/data
+  #   restart: unless-stopped
+
+  cache:
+    container_name: cache
+    image: redis:alpine
     restart: unless-stopped
 
   # backup:
   #   container_name: backup
 
+  # Authentication
+  authelia:
+    container_name: authelia
+    image: authelia/authelia:4.38
+    user: 1000:1000
+    environment:
+      - TZ=Asia/Kolkata
+    env_file:
+      - env/authelia.env
+    volumes:
+      - ./data/authelia:/config
+    restart: unless-stopped
+
+  # Password manager
   vaultwarden:
     container_name: vaultwarden
     image: ghcr.io/dani-garcia/vaultwarden:latest
@@ -47,5 +75,24 @@ services:
       - ./data/vaultwarden:/data
     restart: unless-stopped
 
+  # URL shortener
+  kutt:
+    container_name: kutt
+    image: kutt/kutt:latest
+    ports:
+      - 8081:3000
+    environment:
+      - DB_CLIENT=pg
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=kutt
+      - REDIS_ENABLED=true
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    volumes:
+      - ./data/kutt:/config
+    restart: unless-stopped
+
 volumes:
-  database:
+  database_postgres:
+  database_mysql:

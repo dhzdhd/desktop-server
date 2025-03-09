@@ -1,0 +1,85 @@
+# yamllint disable rule:comments-indentation
+---
+theme: "dark"
+
+default_2fa_method: "mobile_push"
+
+# https://www.authelia.com/configuration/first-factor/introduction/
+authentication_backend:
+  refresh_interval: "10m"
+  password_reset:
+    disable: false
+  file:
+    path: "/config/users.yml"
+    search:
+      email: true
+      case_insensitive: true
+
+# https://www.authelia.com/configuration/second-factor/duo/
+duo_api:
+  disable: false
+  hostname: "api-9f000416.duosecurity.com"
+  enable_self_enrollment: false
+
+# https://www.authelia.com/configuration/miscellaneous/server/
+server:
+address: "tcp://:9091/authelia"
+asset_path: "/config/assets/"
+buffers:
+  read: 4096
+  write: 4096
+
+# https://www.authelia.com/configuration/security/access-control/
+access_control:
+  default_policy: "deny"
+  rules:
+    - domain:
+        - "dhzdhd.dev"
+        - "*.dhzdhd.dev"
+      policy: "bypass"
+    - domain:
+        - "kutt.dhzdhd.dev"
+      policy: "two_factor"
+
+# https://www.authelia.com/configuration/security/regulation/
+regulation:
+  max_retries: 7
+  find_time: "2m"
+  ban_time: "5m"
+
+# https://www.authelia.com/configuration/identity-validation/reset-password/
+
+# https://www.authelia.com/configuration/session/introduction/
+session:
+  cookies:
+    - domain: "dhzdhd.dev"
+      authelia_url: "https://authelia.dhzdhd.dev"
+  redis:
+    host: cache
+    port: 6379
+
+# https://www.authelia.com/configuration/storage/introduction/
+storage:
+  postgres:
+    address: "tcp://database_postgres:5432"
+    database: "authelia"
+
+# https://www.authelia.com/configuration/notifications/introduction/
+notifier:
+  smtp:
+    address: "submission://smtp.gmail.com:587"
+    sender: "authelia@dhzdhd.dev"
+
+# https://www.authelia.com/configuration/telemetry/metrics/
+telemetry:
+  metrics:
+    enabled: false
+
+# https://www.authelia.com/configuration/identity-providers/introduction/
+
+# https://www.authelia.com/configuration/miscellaneous/logging/
+log:
+  level: "debug"
+  format: "json"
+  file_path: "/config/authelia.log"
+  keep_stdout: false

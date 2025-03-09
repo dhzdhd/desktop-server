@@ -19,3 +19,19 @@ data/homepage/config/logs
 hosts
 
 .env
+env/*.env
+!env/*.example.env
+
+# Authelia
+!data/authelia/
+!data/authelia/configuration.yml
+
+# SWAG
+!data/swag/
+!data/swag/config
+data/swag/config/*
+!data/swag/config/nginx
+data/swag/config/nginx/*
+!data/swag/config/nginx/proxy-confs
+data/swag/config/nginx/proxy-confs/*.conf.sample
+!data/swag/config/nginx/authelia-server.conf
