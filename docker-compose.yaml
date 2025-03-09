@@ -72,8 +72,6 @@ services:
   vaultwarden:
     container_name: vaultwarden
     image: ghcr.io/dani-garcia/vaultwarden:latest
-    ports:
-      - 8080:8080
     env_file:
       - .env
     volumes:
@@ -84,8 +82,6 @@ services:
   kutt:
     container_name: kutt
     image: kutt/kutt:latest
-    ports:
-      - 8081:3000
     environment:
       - DB_CLIENT=pg
       - DB_HOST=database_postgres
@@ -108,8 +104,6 @@ services:
   dufs:
     container_name: dufs
     image: sigoden/dufs:latest
-    ports:
-      - 8082:5000
     environment:
       - DUFS_ALLOW_ALL=true
     env_file:
