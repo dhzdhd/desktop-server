@@ -2,7 +2,8 @@
 ---
 theme: "dark"
 
-default_2fa_method: "mobile_push"
+# https://www.authelia.com/configuration/miscellaneous/introduction/
+default_2fa_method: "totp"
 
 # https://www.authelia.com/configuration/first-factor/introduction/
 authentication_backend:
@@ -17,11 +18,7 @@ authentication_backend:
 
 # https://www.authelia.com/configuration/second-factor/duo/
 duo_api:
-  disable: false
-  hostname: "api-9f000416.duosecurity.com"
-  integration_key: '{{ env "AUTHELIA_DUO_API_INTEGRATION_KEY" }}'
-  secret_key: '{{ env "AUTHELIA_DUO_API_SECRET_KEY" }}'
-  enable_self_enrollment: false
+  disable: true
 
 # https://www.authelia.com/configuration/miscellaneous/server/
 server:
@@ -33,12 +30,12 @@ access_control:
   default_policy: "deny"
   rules:
     - domain:
-        - "dhzdhd.dev"
-        - "*.dhzdhd.dev"
-      policy: "bypass"
-    - domain:
-        - "kutt.dhzdhd.dev"
+        - "fs.dhzdhd.dev"
+        - "vaultwarden.dhzdhd.dev"
       policy: "two_factor"
+    - domain:
+        - "links.dhzdhd.dev"
+      policy: "one_factor"
 
 # https://www.authelia.com/configuration/security/regulation/
 regulation:
