@@ -20,35 +20,37 @@ services:
     volumes:
       - ./data/swag/config:/config
 
-  database_postgres:
-    container_name: database_postgres
+  db_postgres:
+    container_name: db_postgres
     image: postgres:16
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
     env_file:
-      - .env
+      - env/database.env
     volumes:
-      - database_postgres:/var/lib/postgresql/data
+      - db_postgres:/var/lib/postgresql/data
+      - ./data/postgres/create_db.sh:/home
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "pg_isready" ]
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
+    command: ["/bin/bash", "/home/create_db.sh"]
 
-  # database_mysql:
-  #   container_name: database_mysql
+  # db_mysql:
+  #   container_name: db_mysql
   #   image: postgres:16
   #   environment:
   #     - PGDATA=/var/lib/postgresql/data/pgdata
   #   env_file:
-  #     - .env
+  #     - env/database.env
   #   volumes:
-  #     - database_postgres:/var/lib/postgresql/data
+  #     - db_postgres:/var/lib/postgresql/data
   #   restart: unless-stopped
 
-  cache:
-    container_name: cache
+  redis:
+    container_name: redis
     image: redis:alpine
     restart: unless-stopped
 
@@ -84,10 +86,10 @@ services:
     image: kutt/kutt:latest
     environment:
       - DB_CLIENT=pg
-      - DB_HOST=database_postgres
+      - DB_HOST=db_postgres
       - DB_PORT=5432
       - REDIS_ENABLED=true
-      - REDIS_HOST=cache
+      - REDIS_HOST=redis
       - REDIS_PORT=6379
     env_file:
       - .env
@@ -95,9 +97,9 @@ services:
       - ./data/kutt:/config
     restart: unless-stopped
     depends_on:
-      database_postgres:
+      db_postgres:
         condition: service_healthy
-      cache:
+      redis:
         condition: service_started
 
   # File server with webdav support
@@ -113,5 +115,5 @@ services:
     restart: unless-stopped
 
 volumes:
-  database_postgres:
-  database_mysql:
+  db_postgres:
+  db_mysql:

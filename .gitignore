@@ -35,3 +35,8 @@ data/swag/config/nginx/*
 !data/swag/config/nginx/proxy-confs
 data/swag/config/nginx/proxy-confs/*.conf.sample
 !data/swag/config/nginx/authelia-server.conf
+
+# Postgres
+!data/postgres/
+data/postgres/*
+!data/postgres/create_db.sh
