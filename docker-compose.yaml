@@ -21,7 +21,7 @@ services:
 
   db_postgres:
     container_name: db_postgres
-    image: postgres:16
+    image: tensorchord/pgvecto-rs:pg16-v0.2.0
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
     env_file:
@@ -117,10 +117,7 @@ services:
   # Media server
   immich:
     container_name: immich
-    image: ghcr.io/immich-app/immich-server:latest-release
-    extends:
-      # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
-      service: cpu 
+    image: ghcr.io/immich-app/immich-server:release
     environment:
       - TZ=Asia/Kolkata
     env_file:
