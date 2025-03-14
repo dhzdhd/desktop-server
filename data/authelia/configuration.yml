@@ -31,6 +31,7 @@ access_control:
   rules:
     - domain:
         - "fs.dhzdhd.dev"
+        - "media.dhzdhd.dev"
       policy: "two_factor"
 
 # https://www.authelia.com/configuration/security/regulation/

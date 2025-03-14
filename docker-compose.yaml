@@ -5,7 +5,6 @@ services:
     restart: unless-stopped
     ports:
       - 443:443
-      - 80:80
     cap_add:
       - NET_ADMIN
     environment:
@@ -52,6 +51,8 @@ services:
     container_name: redis
     image: redis:alpine
     restart: unless-stopped
+    healthcheck:
+      test: redis-cli ping || exit 1
 
   # backup:
   #   container_name: backup
@@ -112,6 +113,27 @@ services:
     volumes:
       - ./data/dufs:/data
     restart: unless-stopped
+
+  # Media server
+  immich:
+    container_name: immich
+    image: ghcr.io/immich-app/immich-server:latest-release
+    extends:
+      # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
+      service: cpu 
+    environment:
+      - TZ=Asia/Kolkata
+    env_file:
+      - env/immich.env
+    volumes:
+      - ./data/immich/media:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - redis
+      - db_postgres
+    restart: unless-stopped
+    healthcheck:
+      disable: false
 
 volumes:
   db_postgres:
