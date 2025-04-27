@@ -1,0 +1,10 @@
+name: aws_vm
+description: A Python program to deploy a virtual machine on Amazon EC2
+runtime:
+  name: python
+  options:
+    toolchain: uv
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: vm-aws-python
