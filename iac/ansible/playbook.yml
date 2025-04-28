@@ -1,7 +1,13 @@
 ---
 - name: Set up infra
-  hosts: ungrouped
-  remote_user: ubuntu
+  hosts: server
+
+  roles:
+    - role: geerlingguy.docker
+      become: true
 
   tasks:
-    - name: Update system
+    - name: Clone repository
+      ansible.builtin.git:
+        repo: "https://github.com/dhzdhd/desktop-server"
+        dest: "server"

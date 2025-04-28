@@ -11,7 +11,7 @@ The docker compose configuration for the server setup I use in my desktop/server
 
 ## VM Details
 
-- EC2 t4g.micro instance
+- EC2 ARM t4g.small instance (IPv6 only)
 - EBS GP3 15GB @ 3000 IOPS
 - 8$ / month
 
