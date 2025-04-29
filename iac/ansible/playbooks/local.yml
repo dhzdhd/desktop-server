@@ -1,0 +1,21 @@
+---
+- name: Set up infra
+  hosts: local
+  vars_files:
+    - ../vars/files.yml
+
+  tasks:
+    - name: Check if files exist locally
+      ansible.builtin.stat:
+        path: "{{ item }}"
+      loop: "{{ files }}"
+      register: path_exists_map
+
+    - name: Debug path existence
+      ansible.builtin.debug:
+        msg: "{{ path_exists_map.results | map(attribute='stat.exists') }}"
+
+    - name: Fail fast if paths do not exist
+      ansible.builtin.fail:
+        msg: "Required files not found. Please create them."
+      when: false in (path_exists_map.results | map(attribute='stat.exists'))

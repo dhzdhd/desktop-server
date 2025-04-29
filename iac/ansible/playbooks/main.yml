@@ -1,0 +1,6 @@
+---
+- name: Execute local checks
+  import_playbook: local.yml
+
+- name: Set up infra
+  import_playbook: server.yml
