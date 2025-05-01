@@ -6,9 +6,29 @@
     - role: geerlingguy.docker
       become: true
 
+  vars_files:
+    - ../vars/env.yml
+    - ../vars/files.yml
+
   tasks:
-    - name: Clone repository
+    - name: Clone repository (https://danwin1210.de/github-ipv6-proxy.php)
       ansible.builtin.git:
-        repo: "https://github.com/dhzdhd/desktop-server"
+        repo: "https://danwin1210.de:1443/dhzdhd/desktop-server"
         dest: "server"
 
+    - name: Create directories
+      ansible.builtin.file:
+        path: "/home/{{ username }}/server/{{ item | dirname }}"
+        state: directory
+      loop: "{{ files | map(attribute='dest') }}"
+
+    - name: Copy files
+      ansible.builtin.copy:
+        src: "{{ item.src }}"
+        dest: "/home/{{ username }}/server/{{ item.dest }}"
+      loop: "{{ files }}"
+
+    - name: Run docker compose
+      become: true
+      community.docker.docker_compose_v2:
+        project_src: "/home/{{ username }}/server"

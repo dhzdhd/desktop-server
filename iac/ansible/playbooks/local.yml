@@ -8,7 +8,7 @@
     - name: Check if files exist locally
       ansible.builtin.stat:
         path: "{{ item }}"
-      loop: "{{ files }}"
+      loop: "{{ files | map(attribute='src') }}"
       register: path_exists_map
 
     - name: Debug path existence
