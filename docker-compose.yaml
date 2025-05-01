@@ -1,7 +1,7 @@
 services:
   swag:
     container_name: swag
-    image: lscr.io/linuxserver/swag:latest
+    image: linuxserver/swag:latest
     restart: unless-stopped
     ports:
       - 443:443
