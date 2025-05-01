@@ -73,7 +73,7 @@ services:
   # Password manager
   vaultwarden:
     container_name: vaultwarden
-    image: ghcr.io/dani-garcia/vaultwarden:latest
+    image: vaultwarden/server:latest
     env_file:
       - .env
     volumes:
@@ -117,7 +117,7 @@ services:
   # Media server
   immich:
     container_name: immich
-    image: ghcr.io/immich-app/immich-server:release
+    image: altran1502/immich-server:release
     environment:
       - TZ=Asia/Kolkata
     env_file:
