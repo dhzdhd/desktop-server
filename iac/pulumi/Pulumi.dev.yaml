@@ -1,5 +1,5 @@
 encryptionsalt: v1:kJrsLapNz+w=:v1:eZGSIzpXmvcSlou9:q3HgKlj7diomvUfYwdXYT6d9iADfZw==
 config:
   aws:region: ap-south-1
-  aws_vm:instanceType: t4g.small
+  aws_vm:instanceType: t4g.medium
   aws_vm:vpcNetworkCidr: 10.0.0.0/16

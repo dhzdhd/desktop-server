@@ -28,6 +28,18 @@
         dest: "/home/{{ username }}/server/{{ item.dest }}"
       loop: "{{ files }}"
 
+    - name: Setup IPv6 in docker
+      become: true
+      ansible.builtin.copy:
+        src: "../../../daemon.json"
+        dest: "/etc/docker/daemon.json"
+
+    - name: Restart docker
+      become: true
+      ansible.builtin.systemd:
+        name: docker
+        state: restarted
+
     - name: Run docker compose
       become: true
       community.docker.docker_compose_v2:

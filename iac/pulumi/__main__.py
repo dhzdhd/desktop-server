@@ -48,6 +48,10 @@ vpc = aws.ec2.Vpc(
 )
 
 gateway = aws.ec2.InternetGateway("gateway", vpc_id=vpc.id)
+egress_only_igw = aws.ec2.EgressOnlyInternetGateway(
+    "egressOnlyIgw",
+    vpc_id=vpc.id,
+)
 
 subnet = aws.ec2.Subnet(
     "subnet",
@@ -66,7 +70,10 @@ route_table = aws.ec2.RouteTable(
     routes=[
         aws.ec2.RouteTableRouteArgs(
             ipv6_cidr_block="::/0",
-            # cidr_block="0.0.0.0/0",
+            gateway_id=gateway.id,
+        ),
+        aws.ec2.RouteTableRouteArgs(
+            cidr_block="0.0.0.0/0",
             gateway_id=gateway.id,
         ),
     ],
@@ -140,6 +147,7 @@ def save_private_key(key_pem):
 
 
 private_key_path_output = ssh_key.private_key_pem.apply(save_private_key)
+
 
 pulumi.export("ipv6", server.ipv6_addresses[0])
 pulumi.export("keypair name", ec2_key_pair.key_name)
