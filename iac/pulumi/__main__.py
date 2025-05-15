@@ -15,7 +15,7 @@ ami = aws.ec2.get_ami(
     filters=[
         aws.ec2.GetAmiFilterArgs(
             name="name",
-            values=["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-arm64-server-*"],
+            values=["ubuntu/*/ubuntu-noble-24.04-arm64-server-*"],
         ),
         aws.ec2.GetAmiFilterArgs(
             name="virtualization-type",
@@ -124,7 +124,7 @@ server = aws.ec2.Instance(
     vpc_security_group_ids=[sec_group.id],
     ami=ami,
     root_block_device=aws.ec2.InstanceRootBlockDeviceArgs(
-        volume_size=15,
+        volume_size=16,
         volume_type="gp3",
         delete_on_termination=True,
     ),
@@ -151,3 +151,4 @@ private_key_path_output = ssh_key.private_key_pem.apply(save_private_key)
 
 pulumi.export("ipv6", server.ipv6_addresses[0])
 pulumi.export("keypair name", ec2_key_pair.key_name)
+pulumi.export("ami", ami)

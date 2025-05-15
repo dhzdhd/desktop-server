@@ -2,6 +2,17 @@
 - name: Set up infra
   hosts: server
 
+  pre_tasks:
+    - name: Update apt cache
+      become: true
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Upgrade all packages
+      become: true
+      ansible.builtin.apt:
+        upgrade: dist
+
   roles:
     - role: geerlingguy.docker
       become: true
@@ -28,6 +39,8 @@
         dest: "/home/{{ username }}/server/{{ item.dest }}"
       loop: "{{ files }}"
 
+    # Do not follow docker docs
+    # https://github.com/nextcloud/all-in-one/blob/main/docker-ipv6-support.md
     - name: Setup IPv6 in docker
       become: true
       ansible.builtin.copy:

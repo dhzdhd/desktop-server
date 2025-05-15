@@ -35,6 +35,7 @@ data/swag/config/nginx/*
 !data/swag/config/nginx/proxy-confs
 data/swag/config/nginx/proxy-confs/*.conf.sample
 !data/swag/config/nginx/authelia-server.conf
+!data/swag/config/nginx/resolver.conf
 cloudflare.ini
 
 # Postgres
