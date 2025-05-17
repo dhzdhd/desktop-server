@@ -128,7 +128,11 @@ services:
     env_file:
       - .env
     volumes:
-      - ./data/prometheus:/prometheus
+      - ./data/prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
     restart: unless-stopped
 
   # Monitoring
@@ -138,9 +142,11 @@ services:
     env_file:
       - .env
     volumes:
-      - ./data/grafana:/var/lib/grafana
+      - grafana_data:/var/lib/grafana
     restart: unless-stopped
 
 volumes:
   db_postgres:
   db_mysql:
+  grafana_data:
+  prometheus_data:
