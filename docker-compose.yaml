@@ -37,17 +37,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # db_mysql:
-  #   container_name: db_mysql
-  #   image: postgres:16
-  #   environment:
-  #     - PGDATA=/var/lib/postgresql/data/pgdata
-  #   env_file:
-  #     - env/database.env
-  #   volumes:
-  #     - db_postgres:/var/lib/postgresql/data
-  #   restart: unless-stopped
-
   redis:
     container_name: redis
     image: redis:alpine
@@ -132,6 +121,25 @@ services:
     restart: unless-stopped
     healthcheck:
       disable: false
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    env_file:
+      - .env
+    volumes:
+      - ./data/prometheus:/prometheus
+    restart: unless-stopped
+
+  # Monitoring
+  grafana:
+    container_name: grafana
+    image: grafana/grafana-oss:latest
+    env_file:
+      - .env
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+    restart: unless-stopped
 
 volumes:
   db_postgres:

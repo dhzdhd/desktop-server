@@ -42,3 +42,5 @@ cloudflare.ini
 !data/postgres/
 data/postgres/*
 !data/postgres/create_db.sh
+
+data/prometheus/

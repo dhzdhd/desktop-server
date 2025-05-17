@@ -21,3 +21,7 @@ files:
     dest: "data/swag/config/nginx/proxy-confs/media.subdomain.conf"
   - src: "../../../proxy-confs/vaultwarden.subdomain.conf"
     dest: "data/swag/config/nginx/proxy-confs/vaultwarden.subdomain.conf"
+  - src: "../../../proxy-confs/grafana.subdomain.conf"
+    dest: "data/swag/config/nginx/proxy-confs/grafana.subdomain.conf"
+  - src: "../../../proxy-confs/prometheus.subdomain.conf"
+    dest: "data/swag/config/nginx/proxy-confs/prometheus.subdomain.conf"
