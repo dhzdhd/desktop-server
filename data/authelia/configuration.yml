@@ -32,6 +32,9 @@ access_control:
     - domain:
         - "fs.dhzdhd.dev"
         - "media.dhzdhd.dev"
+        - "prometheus.dhzdhd.dev"
+        - "grafana.dhzdhd.dev"
+        - "vaultwarden.dhzdhd.dev"
       policy: "two_factor"
 
 # https://www.authelia.com/configuration/security/regulation/
