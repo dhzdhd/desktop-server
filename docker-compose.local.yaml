@@ -1,25 +1,4 @@
 services:
-  swag:
-    container_name: swag
-    image: linuxserver/swag:latest
-    restart: unless-stopped
-    ports:
-      - 443:443
-      - 80:80
-    cap_add:
-      - NET_ADMIN
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
-      - VALIDATION=dns
-      - SUBDOMAINS=wildcard
-      - ONLY_SUBDOMAINS=true
-    env_file:
-      - .env
-    volumes:
-      - ./data/swag/config:/config
-
   db_postgres:
     container_name: db_postgres
     image: tensorchord/pgvecto-rs:pg16-v0.2.0
@@ -44,22 +23,6 @@ services:
     healthcheck:
       test: redis-cli ping || exit 1
 
-  # backup:
-  #   container_name: backup
-
-  # Authentication
-  authelia:
-    container_name: authelia
-    image: authelia/authelia:4.38
-    user: 1000:1000
-    environment:
-      - TZ=Asia/Kolkata
-    env_file:
-      - env/authelia.env
-    volumes:
-      - ./data/authelia:/config
-    restart: unless-stopped
-
   # Password manager
   vaultwarden:
     container_name: vaultwarden
@@ -68,6 +31,8 @@ services:
       - .env
     volumes:
       - ./data/vaultwarden:/data
+    ports:
+      - 8080:8080
     restart: unless-stopped
 
   # URL shortener
@@ -85,6 +50,8 @@ services:
       - .env
     volumes:
       - ./data/kutt:/config
+    ports:
+      - 3001:3000
     restart: unless-stopped
     depends_on:
       db_postgres:
@@ -102,6 +69,8 @@ services:
       - .env
     volumes:
       - ./data/dufs:/data
+    ports:
+      - 5000:5000
     restart: unless-stopped
 
   # Media server
@@ -118,6 +87,8 @@ services:
     depends_on:
       - redis
       - db_postgres
+    ports:
+      - 2283:2283
     restart: unless-stopped
     healthcheck:
       disable: false
@@ -134,6 +105,8 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
+    ports:
+      - 9090:9090
     restart: unless-stopped
 
   # Monitoring server metrics
@@ -162,7 +135,7 @@ services:
     depends_on:
       - redis
 
-  # Monitoring
+  # Monitoring dashboard visuals
   grafana:
     container_name: grafana
     image: grafana/grafana-oss:latest
@@ -170,6 +143,8 @@ services:
       - .env
     volumes:
       - grafana_data:/var/lib/grafana
+    ports:
+      - 3000:3000
     restart: unless-stopped
 
 volumes:
