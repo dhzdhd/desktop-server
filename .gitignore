@@ -46,3 +46,7 @@ data/postgres/*
 !data/prometheus/
 data/prometheus/*
 !data/prometheus/prometheus.yml
+
+.terraform/
+*.tfstate*
+.ansible/
