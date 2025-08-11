@@ -1,5 +1,9 @@
 terraform {
   required_providers {
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4"
+    }
     azurerm = {
       source  = "hashicorp/azurerm"
       version = ">=4.39"
@@ -21,6 +25,23 @@ provider "azurerm" {
   resource_provider_registrations = "none"
   disable_correlation_request_id  = true
   disable_terraform_partner_id    = true
+}
+
+resource "tls_private_key" "ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "local_file" "private_key" {
+  content         = tls_private_key.ssh_key.private_key_pem
+  filename        = var.priv_key_path
+  file_permission = "0600"
+}
+
+resource "local_file" "public_key" {
+  content         = tls_private_key.ssh_key.public_key_openssh
+  filename        = var.pub_key_path
+  file_permission = "0644"
 }
 
 resource "azurerm_resource_group" "resource_group" {
@@ -104,14 +125,14 @@ resource "azurerm_linux_virtual_machine" "vm" {
   resource_group_name = azurerm_resource_group.resource_group.name
   location            = azurerm_resource_group.resource_group.location
   size                = var.size
-  admin_username      = "dhzdhd"
+  admin_username      = var.user
   zone                = var.zone
   network_interface_ids = [
     azurerm_network_interface.nic.id,
   ]
 
   admin_ssh_key {
-    username   = "dhzdhd"
+    username   = var.user
     public_key = file(var.pub_key_path)
   }
 
@@ -153,19 +174,11 @@ resource "ansible_group" "server" {
 resource "ansible_host" "local" {
   name   = "local"
   groups = [ansible_group.local.name]
-  variables = {
-    ansible_connection = "local"
-    # ansible_host       = "localhost"
-  }
 }
 
 resource "ansible_host" "server" {
   name   = "server"
   groups = [ansible_group.server.name]
-  variables = {
-    ansible_user                 = var.user
-    ansible_ssh_private_key_file = var.priv_key_path
-  }
 }
 
 resource "ansible_playbook" "local" {
@@ -196,7 +209,12 @@ resource "ansible_playbook" "server" {
   replayable = true
   check_mode = false
   verbosity  = 4
-  var_files  = ["../ansible/vars/env.yml", "../ansible/vars/files.yml"]
+  extra_vars = {
+    ansible_user                 = var.user
+    ansible_ssh_private_key_file = var.priv_key_path
+    ansible_ssh_common_args      = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+  }
+  var_files = ["../ansible/vars/env.yml", "../ansible/vars/files.yml"]
 
   depends_on = [
     ansible_playbook.local

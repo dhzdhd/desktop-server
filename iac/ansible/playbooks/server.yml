@@ -24,7 +24,7 @@
   tasks:
     - name: Clone repository (https://danwin1210.de/github-ipv6-proxy.php)
       ansible.builtin.git:
-        repo: "https://danwin1210.de:1443/dhzdhd/desktop-server"
+        repo: "https://www.github.com/dhzdhd/desktop-server"
         dest: "server"
 
     - name: Create directories
