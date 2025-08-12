@@ -34,6 +34,7 @@ access_control:
         - "media.dhzdhd.dev"
         - "prometheus.dhzdhd.dev"
         - "grafana.dhzdhd.dev"
+        - "prometheus.dhzdhd.dev"
         - "vaultwarden.dhzdhd.dev"
       policy: "two_factor"
 
