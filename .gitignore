@@ -25,6 +25,8 @@ env/*.env
 # Authelia
 !data/authelia/
 !data/authelia/configuration.yml
+!data/authelia/users.sample.yml
+data/authelia/users.yml
 
 # SWAG
 !data/swag/

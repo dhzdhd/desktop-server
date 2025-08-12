@@ -25,3 +25,5 @@ files:
     dest: "data/swag/config/nginx/proxy-confs/grafana.subdomain.conf"
   - src: "../../../proxy-confs/prometheus.subdomain.conf"
     dest: "data/swag/config/nginx/proxy-confs/prometheus.subdomain.conf"
+  - src: "../../../data/authelia/users.yml"
+    dest: "data/authelia/users.yml"

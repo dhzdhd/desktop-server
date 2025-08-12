@@ -1,0 +1,13 @@
+---
+# Use `authelia crypto hash generate` command in the authelia container
+
+users:
+  "<username>":
+    disabled: false
+    displayname: "Admin"
+    password: "<argon hashed password>"
+    email: "<email>"
+    groups:
+      - admins
+---
+
