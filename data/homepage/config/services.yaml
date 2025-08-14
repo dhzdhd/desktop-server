@@ -3,83 +3,69 @@
 # https://gethomepage.dev/en/configs/services
 
 - Servers:
-    - Calibre Web:
-        icon: calibre.png
-        href: https://calibre.dhzdhd.duckdns.org
-        container: calibre
-        description: Ebook reader and converter
+      - Calibre Web:
+            icon: calibre.png
+            href: https://calibre.dhzdhd.dev
+            container: calibre
+            description: Ebook reader and converter
 
-    - Calibre Web:
-        icon: calibre-web.png
-        href: https://calibre-web.dhzdhd.duckdns.org
-        container: calibre-web
-        description: Calibre Web UI
+      - Calibre Web:
+            icon: calibre-web.png
+            href: https://calibre-web.dhzdhd.dev
+            container: calibre-web
+            description: Calibre Web UI
 
-    - Prowlarr:
-        icon: prowlarr.png
-        href: https://prowlarr.dhzdhd.duckdns.org
-        container: prowlarr
-        description: Prowlarr torrent indexing server
+      - VaultWarden:
+            icon: bitwarden.png
+            href: https://vaultwarden.dhzdhd.dev
+            container: vaultwarden
+            description: Custom Bitwarden server
 
-    - Readarr:
-        icon: readarr.png
-        href: https://readarr.dhzdhd.duckdns.org
-        container: readarr
-        description: EBook torrent server
+      - Papra:
+            icon: papra.png
+            href: https://papra.dhzdhd.dev
+            container: papra
+            description: Document archiver
 
-    - Qbittorrent:
-        icon: qbittorrent.png
-        href: https://qbittorrent.dhzdhd.duckdns.org
-        container: qbittorrent
-        description: Torrent download server
-
-    - VaultWarden:
-        icon: bitwarden.png
-        href: https://vaultwarden.dhzdhd.duckdns.org
-        container: vaultwarden
-        description: Custom Bitwarden server
+      - Pihole:
+            icon: pihole.png
+            href: https://pihole.dhzdhd.dev
+            container: pihole
+            description: Ad blocking DNS resolver
 
 - Monitoring:
-    - Authelia:
-        icon: authelia.png
-        href: https://authelia.dhzdhd.duckdns.org
-        container: authelia
-        description: Authelia auth server
+      - Authelia:
+            icon: authelia.png
+            href: https://authelia.dhzdhd.dev
+            container: authelia
+            description: Authelia auth server
 
-    - PgAdmin:
-        icon: pgadmin.png
-        href: https://pgadmin.dhzdhd.duckdns.org
-        container: pgadmin
-        description: PostgreSQL dashboard
+      - Prometheus:
+            icon: prometheus.png
+            href: https://prometheus.dhzdhd.dev
+            container: prometheus
+            description: Monitoring system with time series database and visualisation
 
-    - Portainer:
-        icon: portainer.png
-        href: https://portainer.dhzdhd.duckdns.org
-        container: portainer
-        description: Docker monitoring software
-        widget:
-            type: portainer
-            url: https://portainer.dhzdhd.duckdns.org
-            env: 1
-            # #! Remove for prod
-            # key: ptr_L5NAU3p4LQq6sH6bpuKb7lV8Z
+      - Grafana:
+            icon: grafana.png
+            href: https://grafana.dhzdhd.dev
+            container: grafana
+            description: Monitoring system for databases
 
-    - Prometheus:
-        icon: prometheus.png
-        href: https://prometheus.dhzdhd.duckdns.org
-        container: prometheus
-        description: Monitoring system with time series database and visualisation
-        widget:
-            type: prometheus
-            url: https://prometheus.dhzdhd.duckdns.org
+      - Loki:
+            icon: loki.png
+            href: https://loki.dhzdhd.dev
+            container: loki
+            description: Monitoring system to aggregate, index and search logs
 
-    - Grafana:
-        icon: grafana.png
-        href: https://grafana.dhzdhd.duckdns.org
-        container: grafana
-        description: Monitoring system for databases
-        widget:
-            type: grafana
-            url: https://grafana.dhzdhd.duckdns.org
-            username: admin
-            password: admin
+      - Alloy:
+            icon: alloy.png
+            href: https://alloy.dhzdhd.dev
+            container: alloy
+            description: Software to get data from multiple sources
+
+      - CAdvisor:
+            icon: cadvisor.png
+            href: https://cadvisor.dhzdhd.dev
+            container: cadvisor
+            description: Monitoring system for docker containers

@@ -60,6 +60,26 @@ services:
       - ./data/authelia:/config
     restart: unless-stopped
 
+  # Homepage
+  homepage:
+    container_name: homepage
+    image: ghcr.io/gethomepage/homepage:latest
+    env_file:
+      - .env
+    volumes:
+      - ./data/homepage:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  # Document archiver
+  papra:
+    container_name: papra
+    image: ghcr.io/papra-hq/papra:latest-root
+    env_file:
+      - .env
+    volumes:
+      - ./data/papra:/app/app-data
+    restart: unless-stopped
+
   # Password manager
   vaultwarden:
     container_name: vaultwarden
@@ -170,6 +190,30 @@ services:
       - .env
     volumes:
       - grafana_data:/var/lib/grafana
+      - ./data/grafana/provisioning:/etc/grafana/provisioning
+
+    restart: unless-stopped
+
+  # Monitoring log collection
+  loki:
+    container_name: loki
+    image: grafana/loki:latest
+    command: -config.file=/etc/loki/config.yaml
+    volumes:
+      - ./data/loki/:/etc/loki/
+    restart: unless-stopped
+
+  # Monitoring data collector
+  alloy:
+    container_name: alloy
+    image: grafana/alloy:latest
+    command: 
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
+      - /etc/alloy/config.alloy
+    volumes:
+      - ./data/alloy/:/etc/alloy/
     restart: unless-stopped
 
 volumes:

@@ -1,18 +1,17 @@
 ---
-# For configuration options and examples, please see:
-# https://gethomepage.dev/en/configs/widgets
+# https://gethomepage.dev/configs/widgets
 
 - resources:
-    cpu: true
-    memory: true
-    disk: /
+      cpu: true
+      memory: true
+      disk: /
 
 - datetime:
-    text_size: xl
-    format:
-      timeStyle: short
-      dateStyle: short
+      text_size: xl
+      format:
+          timeStyle: short
+          dateStyle: short
 
 - search:
-    provider: google
-    target: _blank
+      provider: google
+      target: _blank

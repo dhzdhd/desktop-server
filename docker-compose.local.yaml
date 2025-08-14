@@ -23,6 +23,28 @@ services:
     healthcheck:
       test: redis-cli ping || exit 1
 
+  # Homepage
+  homepage:
+    container_name: homepage
+    image: ghcr.io/gethomepage/homepage:latest
+    env_file:
+      - .env
+    volumes:
+      - ./data/homepage/config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 3011:3000
+
+  # Document archiver
+  papra:
+    container_name: papra
+    image: ghcr.io/papra-hq/papra:latest-root
+    env_file:
+      - .env
+    volumes:
+      - ./data/papra:/app/app-data
+    restart: unless-stopped
+
   # Password manager
   vaultwarden:
     container_name: vaultwarden
