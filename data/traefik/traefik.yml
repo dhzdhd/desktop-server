@@ -22,7 +22,6 @@ providers:
   docker:
     exposedByDefault: true
     network: proxy
-    defaultRule: 'Host(`{{ .Name }}.{{ env "DOMAIN" }}`)'
 
   file:
     directory: /etc/traefik/middleware
@@ -31,7 +30,6 @@ providers:
 certificatesResolvers:
   le:
     acme:
-      email: '{{ env "EMAIL" }}'
       storage: /letsencrypt/acme.json
       dnsChallenge:
         provider: cloudflare

@@ -27,6 +27,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    command:
+      - "--certificatesresolvers.le.acme.email=${EMAIL}"
+      - '--providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN}`)'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./data/traefik/traefik.yml:/etc/traefik/traefik.yml
