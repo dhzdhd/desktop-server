@@ -1,24 +1,42 @@
 services:
-  swag:
-    container_name: swag
-    image: linuxserver/swag:latest
-    restart: unless-stopped
-    ports:
-      - 443:443
-      - 80:80
-    cap_add:
-      - NET_ADMIN
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
-      - VALIDATION=dns
-      - SUBDOMAINS=wildcard
-      - ONLY_SUBDOMAINS=true
+  # swag:
+  #   container_name: swag
+  #   image: linuxserver/swag:latest
+  #   restart: unless-stopped
+  #   ports:
+  #     - 443:443
+  #     - 80:80
+  #   cap_add:
+  #     - NET_ADMIN
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Asia/Kolkata
+  #     - VALIDATION=dns
+  #     - SUBDOMAINS=wildcard
+  #     - ONLY_SUBDOMAINS=true
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./data/swag/config:/config
+
+  traefik:
+    image: traefik:v3.7
     env_file:
-      - .env
+      - env/traefik.env
+    ports:
+      - "80:80"
+      - "443:443"
     volumes:
-      - ./data/swag/config:/config
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/traefik/traefik.yml:/etc/traefik/traefik.yml
+      - ./data/traefik/logs:/var/log/traefik
+      - ./data/traefik/middleware:/etc/traefik/middleware:ro
+      - ./data/traefik/letsencrypt:/letsencrypt
+    networks:
+      - proxy
+    security_opt:
+      - no-new-privileges:true
 
   db_postgres:
     container_name: db_postgres
@@ -32,7 +50,7 @@ services:
       - ./data/postgres:/docker-entrypoint-initdb.d
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -52,6 +70,8 @@ services:
     container_name: authelia
     image: authelia/authelia:4.38
     user: 1000:1000
+    networks:
+      - proxy
     environment:
       - TZ=Asia/Kolkata
     env_file:
@@ -146,14 +166,18 @@ services:
   prometheus:
     container_name: prometheus
     image: prom/prometheus:latest
+    networks:
+      - proxy
+    labels:
+      - "traefik.http.routers.prometheus.middlewares=authelia@file"
     env_file:
       - .env
     volumes:
       - ./data/prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
     restart: unless-stopped
 
   # Monitoring server metrics
@@ -161,7 +185,7 @@ services:
     container_name: node_exporter
     image: quay.io/prometheus/node-exporter:latest
     command:
-      - '--path.rootfs=/host'
+      - "--path.rootfs=/host"
     pid: host
     restart: unless-stopped
     volumes:
@@ -207,7 +231,7 @@ services:
   alloy:
     container_name: alloy
     image: grafana/alloy:latest
-    command: 
+    command:
       - run
       - --server.http.listen-addr=0.0.0.0:12345
       - --storage.path=/var/lib/alloy/data
@@ -221,3 +245,7 @@ volumes:
   db_mysql:
   grafana_data:
   prometheus_data:
+
+networks:
+  proxy:
+    name: proxy

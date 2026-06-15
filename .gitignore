@@ -52,3 +52,7 @@ data/prometheus/*
 .terraform/
 *.tfstate*
 .ansible/
+
+!data/traefik/
+data/traefik/*
+!data/traefik/traefik.yml
