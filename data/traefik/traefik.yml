@@ -19,10 +19,6 @@ entryPoints:
         certResolver: le
 
 providers:
-  docker:
-    exposedByDefault: true
-    network: proxy
-
   file:
     directory: /etc/traefik/middleware
     watch: true
