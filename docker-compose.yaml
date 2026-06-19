@@ -21,6 +21,7 @@ services:
   #     - ./data/swag/config:/config
 
   traefik:
+    container_name: traefik
     image: traefik:v3.7
     env_file:
       - env/traefik.env
