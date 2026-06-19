@@ -19,6 +19,10 @@ entryPoints:
         certResolver: le
 
 providers:
+  docker:
+    exposedByDefault: true
+    network: proxy
+    defaultRule: 'Host(`{{ index .Labels "com.docker.compose.service" }}.dhzdhd.dev`)'
   file:
     directory: /etc/traefik/middleware
     watch: true
