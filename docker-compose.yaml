@@ -32,7 +32,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./data/traefik/traefik.yml:/etc/traefik/traefik.yml
       - ./data/traefik/logs:/var/log/traefik
-      - ./data/traefik/middleware:/config
+      - ./data/traefik/middleware:/etc/traefik/middleware
       - ./data/traefik/letsencrypt:/letsencrypt
     networks:
       - proxy
@@ -46,6 +46,8 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
     networks:
       - internal
+    labels:
+      - "traefik.enable=false"
     env_file:
       - env/database.env
     volumes:
@@ -62,6 +64,8 @@ services:
     container_name: redis
     image: redis:alpine
     restart: unless-stopped
+    labels:
+      - "traefik.enable=false"
     networks:
       - internal
     healthcheck:
@@ -244,7 +248,7 @@ services:
     env_file:
       - .env
     labels:
-      - "traefik.http.routers.grafana.middlewares=authelia@file"
+      - "traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/authz/forward-auth"
     volumes:
       - grafana_data:/var/lib/grafana
       - ./data/grafana/provisioning:/etc/grafana/provisioning
