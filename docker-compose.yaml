@@ -248,7 +248,7 @@ services:
     env_file:
       - .env
     labels:
-      - "traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/authz/forward-auth"
+      - "traefik.http.routers.grafana.middlewares=authelia@file"
     volumes:
       - grafana_data:/var/lib/grafana
       - ./data/grafana/provisioning:/etc/grafana/provisioning
