@@ -60,6 +60,8 @@ services:
     container_name: redis
     image: redis:alpine
     restart: unless-stopped
+    networks:
+      - proxy
     healthcheck:
       test: redis-cli ping || exit 1
 
