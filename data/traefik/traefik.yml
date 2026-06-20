@@ -2,13 +2,6 @@ api:
   insecure: false
   dashboard: true
 
-pilot:
-  dashboard: true
-
-global:
-  sendAnonymousUsage: false
-  checkNewVersion: false
-
 entryPoints:
   web:
     address: :80
