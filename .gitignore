@@ -56,3 +56,6 @@ data/prometheus/*
 !data/traefik/
 data/traefik/*
 !data/traefik/traefik.yml
+!data/traefik/middleware/
+data/traefik/middleware/*
+!data/traefik/middleware/authelia.yml

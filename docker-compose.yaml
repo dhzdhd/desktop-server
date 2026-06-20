@@ -32,7 +32,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./data/traefik/traefik.yml:/etc/traefik/traefik.yml
       - ./data/traefik/logs:/var/log/traefik
-      - ./data/traefik/middleware:/etc/traefik/middleware:ro
+      - ./data/traefik/middleware:/config
       - ./data/traefik/letsencrypt:/letsencrypt
     networks:
       - proxy
@@ -82,6 +82,8 @@ services:
       - TZ=Asia/Kolkata
     env_file:
       - env/authelia.env
+    labels:
+      - "traefik.http.services.authelia.loadbalancer.server.port=9091"
     volumes:
       - ./data/authelia:/config
     restart: unless-stopped
@@ -241,6 +243,8 @@ services:
       - proxy
     env_file:
       - .env
+    labels:
+      - "traefik.http.routers.grafana.middlewares=authelia@file"
     volumes:
       - grafana_data:/var/lib/grafana
       - ./data/grafana/provisioning:/etc/grafana/provisioning
