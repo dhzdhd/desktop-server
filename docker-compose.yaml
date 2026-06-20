@@ -1,25 +1,4 @@
 services:
-  # swag:
-  #   container_name: swag
-  #   image: linuxserver/swag:latest
-  #   restart: unless-stopped
-  #   ports:
-  #     - 443:443
-  #     - 80:80
-  #   cap_add:
-  #     - NET_ADMIN
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=Asia/Kolkata
-  #     - VALIDATION=dns
-  #     - SUBDOMAINS=wildcard
-  #     - ONLY_SUBDOMAINS=true
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - ./data/swag/config:/config
-
   traefik:
     container_name: traefik
     image: traefik:v3.7
@@ -101,6 +80,8 @@ services:
   homepage:
     container_name: homepage
     image: ghcr.io/gethomepage/homepage:latest
+    labels:
+      - "traefik.http.routers.homepage.middlewares=authelia@file"
     networks:
       - proxy
     env_file:
@@ -113,6 +94,8 @@ services:
   papra:
     container_name: papra
     image: ghcr.io/papra-hq/papra:latest-root
+    labels:
+      - "traefik.http.routers.papra.middlewares=authelia@file"
     networks:
       - proxy
     env_file:
@@ -125,6 +108,8 @@ services:
   vaultwarden:
     container_name: vaultwarden
     image: vaultwarden/server:latest
+    labels:
+      - "traefik.http.routers.vaultwarden.middlewares=authelia@file"
     networks:
       - proxy
     env_file:
@@ -137,6 +122,8 @@ services:
   kutt:
     container_name: kutt
     image: kutt/kutt:latest
+    labels:
+      - "traefik.http.routers.kutt.middlewares=authelia@file"
     environment:
       - DB_CLIENT=pg
       - DB_HOST=db_postgres
@@ -161,6 +148,8 @@ services:
   dufs:
     container_name: dufs
     image: sigoden/dufs:latest
+    labels:
+      - "traefik.http.routers.dufs.middlewares=authelia@file"
     environment:
       - DUFS_ALLOW_ALL=true
     networks:
@@ -175,6 +164,8 @@ services:
   immich:
     container_name: immich
     image: altran1502/immich-server:release
+    labels:
+      - "traefik.http.routers.immich.middlewares=authelia@file"
     environment:
       - TZ=Asia/Kolkata
     env_file:
@@ -197,6 +188,7 @@ services:
     image: prom/prometheus:latest
     networks:
       - proxy
+      - internal
     labels:
       - "traefik.http.routers.prometheus.middlewares=authelia@file"
     env_file:
@@ -213,8 +205,11 @@ services:
   node_exporter:
     container_name: node_exporter
     image: quay.io/prometheus/node-exporter:latest
+    labels:
+      - "traefik.http.routers.node_exporter.middlewares=authelia@file"
     networks:
       - proxy
+      - internal
     command:
       - "--path.rootfs=/host"
     pid: host
@@ -228,8 +223,11 @@ services:
   cadvisor:
     container_name: cadvisor
     image: gcr.io/cadvisor/cadvisor:latest
+    labels:
+      - "traefik.http.routers.cadvisor.middlewares=authelia@file"
     networks:
       - proxy
+      - internal
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:ro
@@ -259,6 +257,8 @@ services:
   loki:
     container_name: loki
     image: grafana/loki:latest
+    labels:
+      - "traefik.http.routers.loki.middlewares=authelia@file"
     networks:
       - proxy
     command: -config.file=/etc/loki/config.yaml
@@ -270,6 +270,8 @@ services:
   alloy:
     container_name: alloy
     image: grafana/alloy:latest
+    labels:
+      - "traefik.http.routers.alloy.middlewares=authelia@file"
     networks:
       - proxy
     command:

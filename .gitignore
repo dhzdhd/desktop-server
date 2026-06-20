@@ -28,18 +28,6 @@ env/*.env
 !data/authelia/users.sample.yml
 data/authelia/users.yml
 
-# SWAG
-!data/swag/
-!data/swag/config
-data/swag/config/*
-!data/swag/config/nginx
-data/swag/config/nginx/*
-!data/swag/config/nginx/proxy-confs
-data/swag/config/nginx/proxy-confs/*.conf.sample
-!data/swag/config/nginx/authelia-server.conf
-!data/swag/config/nginx/resolver.conf
-cloudflare.ini
-
 # Postgres
 !data/postgres/
 data/postgres/*
