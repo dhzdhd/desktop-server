@@ -1,3 +1,57 @@
+local.file_match "general_logs" {
+  path_targets = [{"__path__" = "/var/log/*.log"}]
+  sync_period = "5s"
+}
+
+loki.source.file "log_scrape" {
+  targets    = local.file_match.general_logs.targets
+  forward_to = [loki.process.filter_logs.receiver]
+  tail_from_end = true
+}
+
+local.file_match "authelia_logs" {
+  path_targets = [{"__path__" = "/etc/alloy/authelia/*.log"}]
+  sync_period  = "5s"
+}
+
+loki.source.file "authelia_log_scrape" {
+  targets       = local.file_match.authelia_logs.targets
+  forward_to    = [loki.write.loki_server.receiver]
+  tail_from_end = true
+}
+
+loki.write "loki_server" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
+
+prometheus.scrape "node_exporter" {
+  targets = [{"__address__" = "node_exporter:9100"}]
+  forward_to      = [prometheus.remote_write.metrics_service.receiver]
+  scrape_interval = "10s"
+}
+
+prometheus.scrape "cadvisor" {
+  targets = [{"__address__" = "cadvisor:8080"}]
+  forward_to      = [prometheus.remote_write.metrics_service.receiver]
+  scrape_interval = "10s"
+}
+
+prometheus.exporter.unix "local_system" { }
+
+prometheus.scrape "scrape_metrics" {
+  targets         = prometheus.exporter.unix.local_system.targets
+  forward_to      = [prometheus.relabel.filter_metrics.receiver]
+  scrape_interval = "10s"
+}
+
+prometheus.remote_write "metrics_service" {
+    endpoint {
+        url = "http://prometheus:9090/api/v1/write"
+    }
+}
+
 logging {
   level  = "info"
   format = "logfmt"

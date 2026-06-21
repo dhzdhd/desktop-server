@@ -9,7 +9,7 @@ data/*
 
 # Homepage
 !data/homepage/
-data/homepage/config/logs
+data/homepage/logs
 
 # Prometheus
 !data/prometheus/
@@ -36,6 +36,13 @@ data/postgres/*
 !data/prometheus/
 data/prometheus/*
 !data/prometheus/prometheus.yml
+
+!data/grafana/
+data/grafana/*
+!data/grafana/provisioning/
+data/grafana/provisioning/*
+!data/grafana/provisioning/dashboards/
+!data/grafana/provisioning/datasources/
 
 .terraform/
 *.tfstate*

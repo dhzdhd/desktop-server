@@ -198,6 +198,7 @@ services:
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
+      - "--web.enable-remote-write-receiver"
     restart: unless-stopped
 
   # Monitoring server metrics
@@ -284,6 +285,7 @@ services:
       - /etc/alloy/config.alloy
     volumes:
       - ./data/alloy/:/etc/alloy/
+      - ./data/authelia:/etc/alloy/authelia:ro
     restart: unless-stopped
 
 volumes:
