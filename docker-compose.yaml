@@ -271,6 +271,8 @@ services:
     image: grafana/alloy:latest
     labels:
       - "traefik.http.routers.alloy.middlewares=authelia@file"
+      - "traefik.http.routers.alloy.entrypoints=websecure"
+      - "traefik.http.routers.alloy.tls=true"
       - "traefik.http.services.alloy.loadbalancer.server.port=12345"
     networks:
       - proxy
