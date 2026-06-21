@@ -188,7 +188,6 @@ services:
     image: prom/prometheus:latest
     networks:
       - proxy
-      - internal
     labels:
       - "traefik.http.routers.prometheus.middlewares=authelia@file"
     env_file:
@@ -209,7 +208,7 @@ services:
       - "traefik.http.routers.node_exporter.middlewares=authelia@file"
     networks:
       - proxy
-      - internal
+      - metrics
     command:
       - "--path.rootfs=/host"
     pid: host
@@ -227,7 +226,7 @@ services:
       - "traefik.http.routers.cadvisor.middlewares=authelia@file"
     networks:
       - proxy
-      - internal
+      - metrics
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:ro
@@ -272,8 +271,10 @@ services:
     image: grafana/alloy:latest
     labels:
       - "traefik.http.routers.alloy.middlewares=authelia@file"
+      - "traefik.http.services.alloy.loadbalancer.server.port=12345"
     networks:
       - proxy
+      - metrics
     command:
       - run
       - --server.http.listen-addr=0.0.0.0:12345
@@ -294,4 +295,7 @@ networks:
     name: proxy
   internal:
     name: internal
+    internal: true
+  metrics:
+    name: metrics
     internal: true
