@@ -34,12 +34,16 @@ access_control:
   default_policy: "deny"
   rules:
     - domain:
-        - "fs.dhzdhd.dev"
-        - "media.dhzdhd.dev"
-        - "prometheus.dhzdhd.dev"
+        - "dufs.dhzdhd.dev"
+        - "immich.dhzdhd.dev"
+        - "homepage.dhzdhd.dev"
+        - "papra.dhzdhd.dev"
+        - "kutt.dhzdhd.dev"
         - "grafana.dhzdhd.dev"
         - "prometheus.dhzdhd.dev"
         - "vaultwarden.dhzdhd.dev"
+        - "alloy.dhzdhd.dev"
+        - "loki.dhzdhd.dev"
       policy: "two_factor"
 
 # https://www.authelia.com/configuration/security/regulation/
