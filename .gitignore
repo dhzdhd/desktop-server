@@ -58,3 +58,7 @@ data/traefik/middleware/*
 !data/alloy/
 data/alloy/*
 !data/alloy/config.alloy
+
+!data/loki/
+data/loki/*
+!data/loki/config.yaml
