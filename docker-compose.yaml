@@ -150,6 +150,7 @@ services:
     image: sigoden/dufs:latest
     labels:
       - "traefik.http.routers.dufs.middlewares=authelia@file"
+      - "traefik.http.services.alloy.loadbalancer.server.port=5000"
     environment:
       - DUFS_ALLOW_ALL=true
     networks:
