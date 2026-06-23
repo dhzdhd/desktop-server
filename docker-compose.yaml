@@ -112,6 +112,8 @@ services:
       - "traefik.http.routers.vaultwarden.middlewares=authelia@file"
     networks:
       - proxy
+    environment:
+      - DOMAIN=${VAULTWARDEN_DOMAIN}
     env_file:
       - .env
     volumes:
