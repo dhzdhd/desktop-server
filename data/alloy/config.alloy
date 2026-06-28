@@ -52,6 +52,13 @@ prometheus.remote_write "metrics_service" {
     }
 }
 
+prometheus.scrape "traefik" {
+	targets         = [{"__address__" = "traefik:8080"}]
+	forward_to      = [prometheus.remote_write.metrics_service.receiver]
+	scrape_interval = "10s"
+	job_name        = "integrations/traefik"
+}
+
 logging {
   level  = "info"
   format = "logfmt"
