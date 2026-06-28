@@ -52,8 +52,6 @@ data/grafana/provisioning/*
 data/traefik/*
 !data/traefik/traefik.yml
 !data/traefik/middleware/
-data/traefik/middleware/*
-!data/traefik/middleware/authelia.yml
 
 !data/alloy/
 data/alloy/*

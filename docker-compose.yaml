@@ -151,7 +151,7 @@ services:
     container_name: dufs
     image: sigoden/dufs:latest
     labels:
-      - "traefik.http.routers.dufs.middlewares=authelia@file"
+      - "traefik.http.routers.dufs.middlewares=authelia@file,dufs-csp@file"
       - "traefik.http.services.dufs.loadbalancer.server.port=5000"
     command: /data --allow-all
     networks:
