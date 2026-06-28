@@ -210,7 +210,6 @@ services:
     labels:
       - "traefik.http.routers.node_exporter.middlewares=authelia@file"
     networks:
-      - proxy
       - metrics
     command:
       - "--path.rootfs=/host"
@@ -228,7 +227,6 @@ services:
     labels:
       - "traefik.http.routers.cadvisor.middlewares=authelia@file"
     networks:
-      - proxy
       - metrics
     volumes:
       - /:/rootfs:ro
