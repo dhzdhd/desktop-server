@@ -35,15 +35,19 @@ access_control:
   rules:
     - domain:
         - "dufs.dhzdhd.dev"
+        - "prometheus.dhzdhd.dev"
+        - "alloy.dhzdhd.dev"
+        - "loki.dhzdhd.dev"
+      subject: "group:admin"
+      policy: "two_factor"
+    - domain:
         - "immich.dhzdhd.dev"
         - "homepage.dhzdhd.dev"
         - "papra.dhzdhd.dev"
         - "kutt.dhzdhd.dev"
         - "grafana.dhzdhd.dev"
-        - "prometheus.dhzdhd.dev"
         - "vaultwarden.dhzdhd.dev"
-        - "alloy.dhzdhd.dev"
-        - "loki.dhzdhd.dev"
+      subject: ["group:admin", "group:users"]
       policy: "two_factor"
 
 # https://www.authelia.com/configuration/security/regulation/
@@ -51,6 +55,19 @@ regulation:
   max_retries: 7
   find_time: "2m"
   ban_time: "5m"
+
+# https://www.authelia.com/configuration/security/password-policy/
+password_policy:
+  standard:
+    enabled: false
+    min_length: 10
+    require_uppercase: true
+    require_lowercase: true
+    require_number: true
+    require_special: true
+  zxcvbn:
+    enabled: true
+    min_score: 3
 
 # https://www.authelia.com/configuration/identity-validation/reset-password/
 identity_validation:
@@ -90,6 +107,84 @@ telemetry:
     enabled: false
 
 # https://www.authelia.com/configuration/identity-providers/introduction/
+identity_providers:
+  oidc:
+    hmac_secret: '{{ env "AUTHELIA_OIDC_HMAC_SECRET" }}'
+    jwks:
+      - key: '{{ secret "/config/secrets/oidc/jwks/rsa.2048.key" | mindent 10 "|" | msquote }}'
+    enable_client_debug_messages: true
+    enforce_pkce: "public_clients_only"
+    require_pushed_authorization_requests: false
+    # authorization_policies:  NOTE: Might require it for fine grained access someday
+    cors:
+      endpoints:
+        - "authorization"
+        - "token"
+        - "revocation"
+        - "introspection"
+      allowed_origins_from_client_redirect_uris: true
+    clients:
+      - client_id: "grafana"
+        client_name: "Grafana"
+        client_secret: '{{ env "AUTHELIA_OIDC_CLIENT_SECRET_GRAFANA" }}'
+        public: false
+        redirect_uris:
+          - "https://grafana.dhzdhd.dev/login/generic_oauth"
+        scopes:
+          - "openid"
+          - "groups"
+          - "email"
+          - "profile"
+        grant_types:
+          - "refresh_token"
+          - "authorization_code"
+        authorization_policy: "two_factor"
+        requested_audience_mode: "explicit"
+        consent_mode: "explicit"
+
+      - client_id: "vaultwarden"
+        client_name: "Vaultwarden"
+        client_secret: '{{ env "AUTHELIA_OIDC_CLIENT_SECRET_VAULTWARDEN" }}'
+        public: false
+        require_pkce: true
+        pkce_challenge_method: "S256"
+        authorization_policy: "two_factor"
+        consent_mode: "implicit"
+        redirect_uris:
+          - "https://vaultwarden.dhzdhd.dev/identity/connect/oidc-signin"
+        scopes:
+          - "openid"
+          - "profile"
+          - "email"
+          - "offline_access"
+        grant_types:
+          - "authorization_code"
+          - "refresh_token"
+        response_types:
+          - "code"
+        token_endpoint_auth_method: "client_secret_basic"
+        access_token_signed_response_alg: "none"
+        userinfo_signed_response_alg: "none"
+
+      - client_id: "papra"
+        client_name: "Papra"
+        client_secret: '{{ env "AUTHELIA_OIDC_CLIENT_SECRET_PAPRA" }}'
+        public: false
+        require_pkce: false
+        authorization_policy: "two_factor"
+        consent_mode: "implicit"
+        redirect_uris:
+          - "https://papra.dhzdhd.dev/api/auth/callback/oidc"
+        scopes:
+          - "openid"
+          - "profile"
+          - "email"
+        grant_types:
+          - "authorization_code"
+          - "refresh_token"
+        response_types:
+          - "code"
+        token_endpoint_auth_method: "client_secret_basic"
 
 # https://www.authelia.com/configuration/miscellaneous/logging/
 log:
