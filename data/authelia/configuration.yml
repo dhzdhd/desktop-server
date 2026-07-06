@@ -34,20 +34,20 @@ access_control:
   default_policy: "deny"
   rules:
     - domain:
-        - "dufs.dhzdhd.dev"
+        - "fs.dhzdhd.dev"
         - "prometheus.dhzdhd.dev"
         - "alloy.dhzdhd.dev"
         - "loki.dhzdhd.dev"
-      subject: "group:admin"
+      subject: "group:admins"
       policy: "two_factor"
     - domain:
-        - "immich.dhzdhd.dev"
-        - "homepage.dhzdhd.dev"
-        - "papra.dhzdhd.dev"
-        - "kutt.dhzdhd.dev"
+        - "media.dhzdhd.dev"
+        - "home.dhzdhd.dev"
+        - "doc.dhzdhd.dev"
+        - "link.dhzdhd.dev"
         - "grafana.dhzdhd.dev"
         - "vault.dhzdhd.dev"
-      subject: ["group:admin", "group:users"]
+      subject: ["group:admins", "group:users"]
       policy: "two_factor"
 
 # https://www.authelia.com/configuration/security/regulation/
@@ -79,7 +79,7 @@ session:
   secret: '{{ env "AUTHELIA_SESSION_SECRET" }}'
   cookies:
     - domain: "dhzdhd.dev"
-      authelia_url: "https://authelia.dhzdhd.dev"
+      authelia_url: "https://auth.dhzdhd.dev"
   redis:
     host: redis
     port: 6379
@@ -174,7 +174,7 @@ identity_providers:
         authorization_policy: "two_factor"
         consent_mode: "implicit"
         redirect_uris:
-          - "https://papra.dhzdhd.dev/api/auth/callback/oidc"
+          - "https://doc.dhzdhd.dev/api/auth/callback/oidc"
         scopes:
           - "openid"
           - "profile"

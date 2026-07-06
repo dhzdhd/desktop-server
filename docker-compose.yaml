@@ -121,11 +121,11 @@ services:
     restart: unless-stopped
 
   # URL shortener
-  kutt:
+  link:
     container_name: kutt
     image: kutt/kutt:latest
     labels:
-      - "traefik.http.routers.kutt.middlewares=authelia@file"
+      - "traefik.http.routers.link.middlewares=authelia@file"
     environment:
       - DB_CLIENT=pg
       - DB_HOST=db_postgres
@@ -147,12 +147,12 @@ services:
         condition: service_started
 
   # File server with webdav support
-  dufs:
+  fs:
     container_name: dufs
     image: sigoden/dufs:latest
     labels:
-      - "traefik.http.routers.dufs.middlewares=authelia@file,dufs-csp@file"
-      - "traefik.http.services.dufs.loadbalancer.server.port=5000"
+      - "traefik.http.routers.fs.middlewares=authelia@file,dufs-csp@file"
+      - "traefik.http.services.fs.loadbalancer.server.port=5000"
     command: /data --allow-all
     networks:
       - proxy
@@ -163,11 +163,11 @@ services:
     restart: unless-stopped
 
   # Media server
-  immich:
+  media:
     container_name: immich
     image: altran1502/immich-server:release
     labels:
-      - "traefik.http.routers.immich.middlewares=authelia@file"
+      - "traefik.http.routers.media.middlewares=authelia@file"
     environment:
       - TZ=Asia/Kolkata
     env_file:
