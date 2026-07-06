@@ -54,7 +54,7 @@ services:
   #   container_name: backup
 
   # Authentication
-  authelia:
+  auth:
     container_name: authelia
     image: authelia/authelia:4.38
     user: 1000:1000
@@ -66,7 +66,7 @@ services:
     env_file:
       - env/authelia.env
     labels:
-      - "traefik.http.services.authelia.loadbalancer.server.port=9091"
+      - "traefik.http.services.auth.loadbalancer.server.port=9091"
     volumes:
       - ./data/authelia:/config
     restart: unless-stopped
@@ -77,11 +77,11 @@ services:
         condition: service_healthy
 
   # Homepage
-  homepage:
+  home:
     container_name: homepage
     image: ghcr.io/gethomepage/homepage:latest
     labels:
-      - "traefik.http.routers.homepage.middlewares=authelia@file"
+      - "traefik.http.routers.home.middlewares=authelia@file"
     networks:
       - proxy
     env_file:
@@ -91,11 +91,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   # Document archiver
-  papra:
+  doc:
     container_name: papra
     image: ghcr.io/papra-hq/papra:latest-root
     labels:
-      - "traefik.http.routers.papra.middlewares=authelia@file"
+      - "traefik.http.routers.doc.middlewares=authelia@file"
     networks:
       - proxy
     env_file:
@@ -105,11 +105,11 @@ services:
     restart: unless-stopped
 
   # Password manager
-  vaultwarden:
+  vault:
     container_name: vaultwarden
     image: vaultwarden/server:latest
     labels:
-      - "traefik.http.routers.vaultwarden.middlewares=authelia@file"
+      - "traefik.http.routers.vault.middlewares=authelia@file"
     networks:
       - proxy
     environment:
