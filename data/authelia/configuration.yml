@@ -176,9 +176,9 @@ identity_providers:
         access_token_signed_response_alg: "none"
         userinfo_signed_response_alg: "none"
 
-      - client_id: '{{ env "AUTH_OIDC_CLIENT_ID" }}'
+      - client_id: '{{ env "PAPRA_AUTH_OIDC_CLIENT_ID" }}'
         client_name: Papra
-        client_secret: '{{ env "AUTH_OIDC_CLIENT_SECRET" }}'
+        client_secret: '{{ env "PAPRA_AUTH_OIDC_CLIENT_SECRET" }}'
         public: false
         require_pkce: false
         authorization_policy: "two_factor"
