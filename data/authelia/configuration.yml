@@ -144,6 +144,13 @@ identity_providers:
         authorization_policy: "two_factor"
         requested_audience_mode: "explicit"
         consent_mode: "explicit"
+        access_token_signed_response_alg: "none"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_basic"
+        response_types:
+          - "code"
+        require_pkce: true
+        pkce_challenge_method: "S256"
 
       - client_id: '{{ env "VAULTWARDEN_SSO_CLIENT_ID" }}'
         client_name: Vaultwarden
