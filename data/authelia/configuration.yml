@@ -137,7 +137,6 @@ identity_providers:
           - "email"
           - "profile"
         grant_types:
-          - "refresh_token"
           - "authorization_code"
         authorization_policy: "two_factor"
         requested_audience_mode: "explicit"
@@ -182,7 +181,6 @@ identity_providers:
           - "email"
         grant_types:
           - "authorization_code"
-          - "refresh_token"
         response_types:
           - "code"
         token_endpoint_auth_method: "client_secret_basic"
