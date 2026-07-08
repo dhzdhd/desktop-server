@@ -63,6 +63,7 @@ services:
       - internal
     environment:
       - TZ=Asia/Kolkata
+      - X_AUTHELIA_CONFIG_FILTERS=template
     env_file:
       - .env
     labels:
