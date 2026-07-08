@@ -3,7 +3,7 @@ services:
     container_name: traefik
     image: traefik:v3.7
     env_file:
-      - env/traefik.env
+      - .env
     ports:
       - "80:80"
       - "443:443"
@@ -28,7 +28,7 @@ services:
     labels:
       - "traefik.enable=false"
     env_file:
-      - env/database.env
+      - .env
     volumes:
       - db_postgres:/var/lib/postgresql/data
       - ./data/postgres:/docker-entrypoint-initdb.d
@@ -64,7 +64,7 @@ services:
     environment:
       - TZ=Asia/Kolkata
     env_file:
-      - env/authelia.env
+      - .env
     labels:
       - "traefik.http.services.auth.loadbalancer.server.port=9091"
     volumes:
@@ -114,6 +114,16 @@ services:
       - proxy
     environment:
       - DOMAIN=${VAULTWARDEN_DOMAIN}
+      - ROCKET_PORT=${VAULTWARDEN_ROCKET_PORT}
+      - SIGNUPS_ALLOWED=${VAULTWARDEN_SIGNUPS_ALLOWED}
+      - ADMIN_TOKEN=${VAULTWARDEN_ADMIN_TOKEN}
+      - SSO_ENABLED=${VAULTWARDEN_SSO_ENABLED}
+      - SSO_ONLY=${VAULTWARDEN_SSO_ONLY}
+      - SSO_CLIENT_ID=${VAULTWARDEN_SSO_CLIENT_ID}
+      - SSO_CLIENT_SECRET=${VAULTWARDEN_SSO_CLIENT_SECRET}
+      - SSO_AUTHORITY=${VAULTWARDEN_SSO_AUTHORITY}
+      - SSO_SCOPES=${VAULTWARDEN_SSO_SCOPES}
+      - SSO_SIGNUPS_MATCH_EMAIL=${VAULTWARDEN_SSO_SIGNUPS_MATCH_EMAIL}
     env_file:
       - .env
     volumes:
@@ -133,6 +143,10 @@ services:
       - REDIS_ENABLED=true
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - DB_PASSWORD=${KUTT_DB_PASSWORD}
+      - DB_NAME=${KUTT_DB_NAME}
+      - DB_USER=${KUTT_DB_USER}
+      - JWT_SECRET=${KUTT_JWT_SECRET}
     networks:
       - proxy
     env_file:
@@ -170,8 +184,12 @@ services:
       - "traefik.http.routers.media.middlewares=authelia@file"
     environment:
       - TZ=Asia/Kolkata
+      - DB_PASSWORD=${IMMICH_DB_PASSWORD}
+      - DB_USERNAME=${IMMICH_DB_USERNAME}
+      - DB_DATABASE_NAME=${IMMICH_DB_DATABASE_NAME}
+      - DB_HOSTNAME=${IMMICH_DB_HOSTNAME}
     env_file:
-      - env/immich.env
+      - .env
     networks:
       - proxy
     volumes:
@@ -207,8 +225,6 @@ services:
   node_exporter:
     container_name: node_exporter
     image: quay.io/prometheus/node-exporter:latest
-    labels:
-      - "traefik.http.routers.node_exporter.middlewares=authelia@file"
     networks:
       - metrics
     command:
@@ -224,8 +240,6 @@ services:
   cadvisor:
     container_name: cadvisor
     image: gcr.io/cadvisor/cadvisor:latest
-    labels:
-      - "traefik.http.routers.cadvisor.middlewares=authelia@file"
     networks:
       - metrics
     volumes:
@@ -243,11 +257,6 @@ services:
     image: grafana/grafana-oss:latest
     networks:
       - proxy
-    environment:
-      - GF_PLUGINS_PREINSTALL=grafana-clock-panel,grafana-simple-json-datasource
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     env_file:
       - .env
     labels:
