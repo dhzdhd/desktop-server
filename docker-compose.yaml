@@ -56,7 +56,7 @@ services:
   # Authentication
   auth:
     container_name: authelia
-    image: authelia/authelia:4.38
+    image: authelia/authelia:4.39
     user: 1000:1000
     networks:
       - proxy
