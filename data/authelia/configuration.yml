@@ -23,7 +23,6 @@ duo_api:
 # https://www.authelia.com/configuration/miscellaneous/server/
 server:
   address: "tcp://:9091/authelia"
-  asset_path: "/config/assets/"
   endpoints:
     authz:
       forward-auth:
