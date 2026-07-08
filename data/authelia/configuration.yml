@@ -125,7 +125,7 @@ identity_providers:
       allowed_origins_from_client_redirect_uris: true
     clients:
       - client_id: grafana
-        client_name: "Grafana"
+        client_name: '{{ env "GF_AUTH_GENERIC_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET" }}'
         public: false
         redirect_uris:
@@ -143,7 +143,7 @@ identity_providers:
         consent_mode: "explicit"
 
       - client_id: vaultwarden
-        client_name: "Vaultwarden"
+        client_name: '{{ env "VAULTWARDEN_SSO_CLIENT_ID" }}'
         client_secret: '{{ env "VAULTWARDEN_SSO_CLIENT_SECRET" }}'
         public: false
         require_pkce: true
@@ -167,7 +167,7 @@ identity_providers:
         userinfo_signed_response_alg: "none"
 
       - client_id: papra
-        client_name: "Papra"
+        client_name: '{{ env "AUTH_OIDC_CLIENT_ID" }}'
         client_secret: '{{ env "AUTH_OIDC_CLIENT_SECRET" }}'
         public: false
         require_pkce: false
