@@ -142,6 +142,7 @@ services:
     image: kutt/kutt:latest
     labels:
       - "traefik.http.routers.link.middlewares=authelia@file"
+      - "traefik.http.services.link.loadbalancer.server.port=3000"
     environment:
       - DB_CLIENT=pg
       - DB_HOST=db_postgres
@@ -189,6 +190,7 @@ services:
     image: altran1502/immich-server:release
     labels:
       - "traefik.http.routers.media.middlewares=authelia@file"
+      - "traefik.http.services.media.loadbalancer.server.port=2283"
     environment:
       - TZ=Asia/Kolkata
       - DB_PASSWORD=${IMMICH_DB_PASSWORD}
